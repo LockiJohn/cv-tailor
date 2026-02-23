@@ -13,6 +13,9 @@ const Dashboard = () => {
     const [tailoredResume, setTailoredResume] = useState<any>(null);
     const [isProcessing, setIsProcessing] = useState(false);
 
+    const [targetLanguage, setTargetLanguage] = useState<'ITA' | 'ENG'>('ENG');
+    const [isDragging, setIsDragging] = useState(false);
+
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
     const handleAnalyze = async () => {
@@ -46,6 +49,43 @@ const Dashboard = () => {
             console.error("Tailoring failed", error);
         } finally {
             setIsProcessing(false);
+        }
+    };
+
+    const handleLanguageSwitch = async (lang: 'ITA' | 'ENG') => {
+        if (lang === targetLanguage) return;
+        setIsProcessing(true);
+        try {
+            const response = await axios.post(`${API_BASE_URL}/tailor/translate`, {
+                resume: tailoredResume,
+                targetLanguage: lang
+            });
+            setTailoredResume(response.data.translatedResume);
+            setTargetLanguage(lang);
+        } catch (error) {
+            console.error("Translation failed", error);
+        } finally {
+            setIsProcessing(false);
+        }
+    };
+
+    const handleDragOver = (e: React.DragEvent) => {
+        e.preventDefault();
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = () => {
+        setIsDragging(false);
+    };
+
+    const handleDrop = (e: React.DragEvent) => {
+        e.preventDefault();
+        setIsDragging(false);
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            console.log("File dropped:", files[0].name);
+            // In a real scenario, we'd trigger the parser here
+            alert(`File "${files[0].name}" received! (Parser backend integration pending)`);
         }
     };
 
@@ -106,9 +146,22 @@ const Dashboard = () => {
                 {view === 'upload' && (
                     <div className="glass-card animate-fade">
                         <h2 style={{ marginBottom: '1.5rem' }}>Start Customization</h2>
-                        <div style={{ border: '2px dashed var(--glass-border)', padding: '3rem', textAlign: 'center', borderRadius: 'var(--radius-md)', marginBottom: '2rem', background: 'rgba(255,255,255,0.02)' }}>
-                            <Upload size={48} style={{ color: 'var(--primary)', marginBottom: '1rem' }} />
-                            <p>Drag and drop your CV here, or <span style={{ color: 'var(--primary)', cursor: 'pointer' }}>browse files</span></p>
+                        <div
+                            onDragOver={handleDragOver}
+                            onDragLeave={handleDragLeave}
+                            onDrop={handleDrop}
+                            style={{
+                                border: `2px dashed ${isDragging ? 'var(--primary)' : 'var(--glass-border)'}`,
+                                padding: '3rem',
+                                textAlign: 'center',
+                                borderRadius: 'var(--radius-md)',
+                                marginBottom: '2rem',
+                                background: isDragging ? 'rgba(99, 102, 241, 0.05)' : 'rgba(255,255,255,0.02)',
+                                transition: 'all 0.3s ease'
+                            }}
+                        >
+                            <Upload size={48} style={{ color: isDragging ? 'var(--primary-hover)' : 'var(--primary)', marginBottom: '1rem', transition: 'all 0.3s ease' }} />
+                            <p>{isDragging ? 'Drop it here!' : 'Drag and drop your CV here, or'} <span style={{ color: 'var(--primary)', cursor: 'pointer' }}>browse files</span></p>
                             <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>PDF, DOCX accepted</span>
                         </div>
 
@@ -155,8 +208,30 @@ const Dashboard = () => {
                                 <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Side-by-side comparison of tailored highlights.</p>
                             </div>
                             <div style={{ display: 'flex', gap: '0.5rem', background: 'var(--surface)', padding: '4px', borderRadius: 'var(--radius-sm)' }}>
-                                <button className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '0.8rem' }}><Languages size={14} style={{ marginRight: '6px' }} /> ITA</button>
-                                <button className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '0.8rem', background: 'var(--primary)' }}>ENG</button>
+                                <button
+                                    onClick={() => handleLanguageSwitch('ITA')}
+                                    className="btn btn-secondary"
+                                    style={{
+                                        padding: '6px 12px',
+                                        fontSize: '0.8rem',
+                                        background: targetLanguage === 'ITA' ? 'var(--primary)' : 'transparent',
+                                        borderColor: targetLanguage === 'ITA' ? 'var(--primary)' : 'var(--glass-border)'
+                                    }}
+                                >
+                                    <Languages size={14} style={{ marginRight: '6px' }} /> ITA
+                                </button>
+                                <button
+                                    onClick={() => handleLanguageSwitch('ENG')}
+                                    className="btn btn-secondary"
+                                    style={{
+                                        padding: '6px 12px',
+                                        fontSize: '0.8rem',
+                                        background: targetLanguage === 'ENG' ? 'var(--primary)' : 'transparent',
+                                        borderColor: targetLanguage === 'ENG' ? 'var(--primary)' : 'var(--glass-border)'
+                                    }}
+                                >
+                                    ENG
+                                </button>
                             </div>
                         </div>
 
