@@ -20,14 +20,15 @@ export class ExportService {
         xmlContent = xmlContent.replace(/\[SUMMARY\]/g, resume.basics.summary);
 
         // Replace work highlights (simplified for POC)
+        let currentXml = xmlContent;
         resume.work.forEach((job, jobIdx) => {
             job.highlights.forEach((bullet, bulletIdx) => {
                 const placeholder = `[WORK_${jobIdx}_BULLET_${bulletIdx}]`;
-                xmlContent = xmlContent.replace(placeholder, bullet.tailored || bullet.original);
+                currentXml = currentXml.replace(placeholder, bullet.tailored || bullet.original);
             });
         });
 
-        zip.file("word/document.xml", xmlContent);
+        zip.file("word/document.xml", currentXml);
         return zip.generate({ type: "nodebuffer" });
     }
 
