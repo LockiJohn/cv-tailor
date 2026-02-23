@@ -35,6 +35,25 @@ const Dashboard = () => {
         }
     };
 
+    const handleDemo = () => {
+        const sampleResume = {
+            basics: { name: "Mario Rossi", label: "Technical Business Analyst" },
+            work: [{
+                company: "FinTech Solutions",
+                position: "Business Analyst",
+                highlights: [
+                    { original: "Managed requirements for a payment gateway project involving multiple stakeholders.", tailored: "" },
+                    { original: "Worked with SQL databases to extract data and create reports for the management team.", tailored: "" }
+                ]
+            }]
+        };
+        const sampleJD = "We are looking for a Senior Technical Business Analyst with experience in API integrations, SQL, and Agile methodologies. The candidate must be able to bridge the gap between business needs and technical implementation.";
+
+        setResume(sampleResume);
+        setJdInput(sampleJD);
+        alert("Demo Data Caricata! Clicca su 'Analyze Skills Gap' per procedere.");
+    };
+
     const handleTailor = async (type: string) => {
         setIsProcessing(true);
         try {
@@ -163,6 +182,11 @@ const Dashboard = () => {
                             <Upload size={48} style={{ color: isDragging ? 'var(--primary-hover)' : 'var(--primary)', marginBottom: '1rem', transition: 'all 0.3s ease' }} />
                             <p>{isDragging ? 'Drop it here!' : 'Drag and drop your CV here, or'} <span style={{ color: 'var(--primary)', cursor: 'pointer' }}>browse files</span></p>
                             <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>PDF, DOCX accepted</span>
+                            <div style={{ marginTop: '1rem' }}>
+                                <button onClick={handleDemo} style={{ background: 'none', border: 'none', color: 'var(--secondary)', cursor: 'pointer', fontSize: '0.9rem', textDecoration: 'underline' }}>
+                                    ✨ O prova la Demo Interactiva
+                                </button>
+                            </div>
                         </div>
 
                         <div style={{ marginBottom: '2rem' }}>
