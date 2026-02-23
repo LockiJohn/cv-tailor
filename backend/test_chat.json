@@ -1,0 +1,15 @@
+{
+    "messages": [
+        {
+            "parts": [
+                {
+                    "text": "Ciao Guru, funzioni?"
+                }
+            ]
+        }
+    ],
+    "context": {
+        "resume": null,
+        "jd": ""
+    }
+}

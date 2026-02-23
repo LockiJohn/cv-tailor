@@ -6,6 +6,7 @@ import { GapReportService } from '../services/GapReportService';
 import { TailoringEngineService } from '../services/TailoringEngineService';
 import { ExportService } from '../services/ExportService';
 import { TranslationService } from '../services/TranslationService';
+import { GeminiService } from '../services/GeminiService';
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -16,20 +17,36 @@ const gapService = new GapReportService();
 const tailoringEngine = new TailoringEngineService();
 const exporter = new ExportService();
 const translator = new TranslationService();
+const gemini = new GeminiService();
 
 // 1. Upload & Parse CV
 router.post('/cv/upload', upload.single('cv'), async (req: Request, res: Response) => {
     try {
         if (!req.file) {
-            return res.status(400).json({ error: "No CV file uploaded" });
+            return res.status(400).json({ error: "Nessun file CV caricato" });
         }
 
-        const rawText = await parser.parsePDF(req.file.buffer);
+        const isPDF = req.file.mimetype === 'application/pdf' || req.file.originalname.endsWith('.pdf');
+        const isDOCX = req.file.mimetype.includes('word') || req.file.originalname.endsWith('.docx');
+
+        let rawText: string;
+        if (isPDF) {
+            rawText = await parser.parsePDF(req.file.buffer);
+        } else if (isDOCX) {
+            rawText = await parser.parseDOCX(req.file.buffer);
+        } else {
+            return res.status(400).json({ error: "Formato non supportato. Usa PDF o DOCX." });
+        }
+
+        if (!rawText || rawText.trim().length < 10) {
+            return res.status(422).json({ error: "Il PDF sembra vuoto o non leggibile. Prova con un PDF diverso." });
+        }
+
         const resume = await parser.normalizeToSchema(rawText);
-        res.json({ resume, message: "CV Parsed successfully" });
+        res.json({ resume, message: "CV analizzato con successo" });
     } catch (error) {
         console.error("Upload error:", error);
-        res.status(500).json({ error: "Failed to parse CV" });
+        res.status(500).json({ error: "Errore durante l'analisi del CV. Riprova." });
     }
 });
 
@@ -77,6 +94,18 @@ router.post('/tailor/translate', async (req: Request, res: Response) => {
         res.json({ translatedResume });
     } catch (error) {
         res.status(500).json({ error: "Translation failed" });
+    }
+});
+
+// 6. Guru Chat Assistant
+router.post('/tailor/chat', async (req: Request, res: Response) => {
+    try {
+        const { messages, context } = req.body;
+        const response = await gemini.chatWithGuru(messages, context);
+        res.json({ response });
+    } catch (error) {
+        console.error("Guru Chat error:", error);
+        res.status(500).json({ error: "Guru is currently offline. Chill out and try again later." });
     }
 });
 

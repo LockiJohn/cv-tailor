@@ -1,35 +1,61 @@
 import React, { useState } from 'react';
-import MatchReport from '../components/MatchReport';
-import BulletDiffEditor from '../components/BulletDiffEditor';
-import { useCVStore } from '../store/useCVStore';
 import axios from 'axios';
-import { Upload, FileText, CheckCircle, Download, Languages, ChevronRight } from 'lucide-react';
+import {
+    Upload,
+    FileText,
+    CheckCircle,
+    ChevronRight,
+    Download,
+    Languages
+} from 'lucide-react';
+
+// Components
+import Layout from '../components/Layout';
+import Stepper from '../components/Stepper';
+import UploadZone from '../components/UploadZone';
+import MatchReport from '../components/MatchReport';
+import JobDescriptionInput from '../components/JobDescriptionInput';
+import HighlightsEditor from '../components/HighlightsEditor';
+import LoadingSpinner from '../components/LoadingSpinner';
+import Toast, { ToastType } from '../components/Toast';
+import { ErrorTracker } from '../services/ErrorTracker';
+import ChatWidget from '../components/ChatWidget';
 
 const Dashboard = () => {
-    const { originalResume, setResume, setJd } = useCVStore();
-    const [jdInput, setJdInput] = useState('');
     const [view, setView] = useState<'upload' | 'report' | 'editor'>('upload');
+    React.useEffect(() => {
+        ErrorTracker.init();
+    }, []);
+
+    const [jdInput, setJdInput] = useState('');
+    const [isProcessing, setIsProcessing] = useState(false);
+    const [originalResume, setResume] = useState<any>(null);
     const [analysisData, setAnalysisData] = useState<any>(null);
     const [tailoredResume, setTailoredResume] = useState<any>(null);
-    const [isProcessing, setIsProcessing] = useState(false);
-
     const [targetLanguage, setTargetLanguage] = useState<'ITA' | 'ENG'>('ENG');
-    const [isDragging, setIsDragging] = useState(false);
+    const [toast, setToast] = useState<{ message: string, type: ToastType } | null>(null);
 
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
-    const handleAnalyze = async () => {
+    const showToast = (message: string, type: ToastType = 'info') => {
+        setToast({ message, type });
+    };
+
+    const handleFileUpload = async (file: File) => {
+        ErrorTracker.addBreadcrumb(`File upload started: ${file.name}`, 'interaction');
         setIsProcessing(true);
+        const formData = new FormData();
+        formData.append('cv', file);
+
         try {
-            const response = await axios.post(`${API_BASE_URL}/tailor/analyze`, {
-                resume: originalResume || { basics: { name: "Test User" }, work: [] },
-                jdText: jdInput
+            const response = await axios.post(`${API_BASE_URL}/cv/upload`, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
             });
-            setAnalysisData(response.data);
-            setView('report');
+            setResume(response.data.resume);
+            showToast("CV caricato e analizzato con successo!", "success");
         } catch (error) {
-            console.error("Analysis failed", error);
-            alert("Analysis failed. Check your connection.");
+            console.error("Upload failed", error);
+            showToast("Errore nel caricamento del CV. Riprova con un PDF.", "error");
         } finally {
             setIsProcessing(false);
         }
@@ -43,7 +69,8 @@ const Dashboard = () => {
                 position: "Business Analyst",
                 highlights: [
                     { original: "Managed requirements for a payment gateway project involving multiple stakeholders.", tailored: "" },
-                    { original: "Worked with SQL databases to extract data and create reports for the management team.", tailored: "" }
+                    { original: "Worked with SQL databases to extract data and create reports for the management team.", tailored: "" },
+                    { original: "Collaborated with technical teams to ensure seamless API integrations.", tailored: "" }
                 ]
             }]
         };
@@ -51,10 +78,61 @@ const Dashboard = () => {
 
         setResume(sampleResume);
         setJdInput(sampleJD);
-        alert("Demo Data Caricata! Clicca su 'Analyze Skills Gap' per procedere.");
+        showToast("Dati Demo caricati con successo!", "success");
+    };
+
+    const handleAnalyze = async () => {
+        ErrorTracker.addBreadcrumb('JD Analysis started', 'interaction');
+        if (!originalResume) return showToast("Per favore, carica prima il tuo CV.", "error");
+        setIsProcessing(true);
+        try {
+            const response = await axios.post(`${API_BASE_URL}/tailor/analyze`, {
+                resume: originalResume,
+                jdText: jdInput
+            });
+            setAnalysisData(response.data);
+            setView('report');
+            showToast("Analisi completata!", "success");
+        } catch (error) {
+            console.error("Analysis failed", error);
+            showToast("Errore durante l'analisi. Riprova.", "error");
+        } finally {
+            setIsProcessing(false);
+        }
+    };
+
+    const handleHighlightsChange = (newHighlights: any[]) => {
+        const updatedResume = { ...tailoredResume };
+        updatedResume.work[0].highlights = newHighlights;
+        setTailoredResume(updatedResume);
+    };
+
+    const handleDownload = async () => {
+        if (!tailoredResume) return;
+        setIsProcessing(true);
+        try {
+            const response = await axios.post(`${API_BASE_URL}/export/docx`, {
+                resume: tailoredResume
+            }, { responseType: 'blob' });
+
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `CurriculumAI_${targetLanguage}.docx`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            showToast("Download avviato!", "success");
+        } catch (error) {
+            console.error("Download failed", error);
+            showToast("Errore durante il download.", "error");
+        } finally {
+            setIsProcessing(false);
+        }
     };
 
     const handleTailor = async (type: string) => {
+        ErrorTracker.addBreadcrumb(`Tailoring variant: ${type}`, 'interaction');
         setIsProcessing(true);
         try {
             const response = await axios.post(`${API_BASE_URL}/tailor/generate`, {
@@ -88,26 +166,6 @@ const Dashboard = () => {
         }
     };
 
-    const handleDragOver = (e: React.DragEvent) => {
-        e.preventDefault();
-        setIsDragging(true);
-    };
-
-    const handleDragLeave = () => {
-        setIsDragging(false);
-    };
-
-    const handleDrop = (e: React.DragEvent) => {
-        e.preventDefault();
-        setIsDragging(false);
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-            console.log("File dropped:", files[0].name);
-            // In a real scenario, we'd trigger the parser here
-            alert(`File "${files[0].name}" received! (Parser backend integration pending)`);
-        }
-    };
-
     const steps = [
         { id: 'upload', label: 'Setup', icon: <Upload size={18} /> },
         { id: 'report', label: 'Analysis', icon: <FileText size={18} /> },
@@ -115,169 +173,102 @@ const Dashboard = () => {
     ];
 
     return (
-        <div className="premium-container animate-fade">
-            <header style={{ marginBottom: '3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                    <h1 style={{ fontSize: '2.5rem', marginBottom: '0.2rem' }}>
-                        Curriculum<span style={{ color: 'var(--primary)', fontWeight: '600' }}>AI</span>
-                    </h1>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem', fontWeight: '300', fontStyle: 'italic' }}>
-                        Rendere chill trovare lavoro.
-                    </p>
-                </div>
-                <div style={{ padding: '0.5rem 1rem', background: 'var(--surface)', borderRadius: 'var(--radius-sm)', fontSize: '0.8rem', opacity: 0.6 }}>
-                    BETA v1.1
-                </div>
-            </header>
+        <Layout>
+            {isProcessing && <LoadingSpinner />}
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast(null)}
+                />
+            )}
 
-            {/* Progress Stepper */}
-            <div style={{ display: 'flex', gap: '2rem', marginBottom: '3rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '1rem' }}>
-                {steps.map((step, idx) => (
-                    <div
-                        key={step.id}
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.75rem',
-                            color: view === step.id ? 'var(--primary)' : 'var(--text-muted)',
-                            fontWeight: view === step.id ? '600' : '400',
-                            transition: 'all 0.3s ease'
-                        }}
-                    >
-                        <span style={{
-                            width: '32px',
-                            height: '32px',
-                            borderRadius: '50%',
-                            border: `2px solid ${view === step.id ? 'var(--primary)' : 'var(--glass-border)'}`,
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}>
-                            {step.icon}
-                        </span>
-                        {step.label}
-                        {idx < steps.length - 1 && <ChevronRight size={16} opacity={0.3} />}
-                    </div>
-                ))}
-            </div>
+            <Stepper steps={steps} currentStepId={view} />
 
-            <main>
-                {view === 'upload' && (
-                    <div className="glass-card animate-fade">
-                        <h2 style={{ marginBottom: '1.5rem' }}>Start Customization</h2>
-                        <div
-                            onDragOver={handleDragOver}
-                            onDragLeave={handleDragLeave}
-                            onDrop={handleDrop}
-                            style={{
-                                border: `2px dashed ${isDragging ? 'var(--primary)' : 'var(--glass-border)'}`,
-                                padding: '3rem',
-                                textAlign: 'center',
-                                borderRadius: 'var(--radius-md)',
-                                marginBottom: '2rem',
-                                background: isDragging ? 'rgba(99, 102, 241, 0.05)' : 'rgba(255,255,255,0.02)',
-                                transition: 'all 0.3s ease'
-                            }}
-                        >
-                            <Upload size={48} style={{ color: isDragging ? 'var(--primary-hover)' : 'var(--primary)', marginBottom: '1rem', transition: 'all 0.3s ease' }} />
-                            <p>{isDragging ? 'Drop it here!' : 'Drag and drop your CV here, or'} <span style={{ color: 'var(--primary)', cursor: 'pointer' }}>browse files</span></p>
-                            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>PDF, DOCX accepted</span>
-                            <div style={{ marginTop: '1rem' }}>
-                                <button onClick={handleDemo} style={{ background: 'none', border: 'none', color: 'var(--secondary)', cursor: 'pointer', fontSize: '0.9rem', textDecoration: 'underline' }}>
-                                    ✨ O prova la Demo Interactiva
-                                </button>
-                            </div>
+            {view === 'upload' && (
+                <>
+                    <UploadZone
+                        onFileUpload={handleFileUpload}
+                        onDemo={handleDemo}
+                        isProcessing={isProcessing}
+                    />
+
+                    {originalResume && (
+                        <JobDescriptionInput
+                            value={jdInput}
+                            onChange={setJdInput}
+                            onAnalyze={handleAnalyze}
+                            isProcessing={isProcessing}
+                            disabled={!jdInput}
+                        />
+                    )}
+                </>
+            )}
+
+            {view === 'report' && analysisData && (
+                <MatchReport report={analysisData.report} onTailor={handleTailor} />
+            )}
+
+            {view === 'editor' && tailoredResume && (
+                <div className="glass-card animate-fade">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+                        <div>
+                            <h2 style={{ marginBottom: '0.2rem' }}>Revisione Dinamica</h2>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Trascina i punti per ordinare l'impatto strategico.</p>
                         </div>
-
-                        <div style={{ marginBottom: '2rem' }}>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Target Job Description</label>
-                            <textarea
-                                value={jdInput}
-                                onChange={(e) => setJdInput(e.target.value)}
-                                placeholder="Paste the job requirements here..."
+                        <div style={{ display: 'flex', gap: '0.5rem', background: 'var(--surface)', padding: '4px', borderRadius: 'var(--radius-sm)' }}>
+                            <button
+                                onClick={() => handleLanguageSwitch('ITA')}
+                                className="btn btn-secondary"
                                 style={{
-                                    width: '100%',
-                                    minHeight: '200px',
-                                    padding: '1.2rem',
-                                    borderRadius: 'var(--radius-md)',
-                                    border: '1px solid var(--glass-border)',
-                                    background: 'var(--surface)',
-                                    color: 'var(--text)',
-                                    outline: 'none',
-                                    fontSize: '1rem'
+                                    padding: '6px 12px',
+                                    fontSize: '0.8rem',
+                                    background: targetLanguage === 'ITA' ? 'var(--primary)' : 'transparent',
+                                    borderColor: targetLanguage === 'ITA' ? 'var(--primary)' : 'var(--glass-border)'
                                 }}
-                            />
+                            >
+                                <Languages size={14} style={{ marginRight: '6px' }} /> ITA
+                            </button>
+                            <button
+                                onClick={() => handleLanguageSwitch('ENG')}
+                                className="btn btn-secondary"
+                                style={{
+                                    padding: '6px 12px',
+                                    fontSize: '0.8rem',
+                                    background: targetLanguage === 'ENG' ? 'var(--primary)' : 'transparent',
+                                    borderColor: targetLanguage === 'ENG' ? 'var(--primary)' : 'var(--glass-border)'
+                                }}
+                            >
+                                ENG
+                            </button>
                         </div>
+                    </div>
+
+                    <div style={{ marginBottom: '2rem' }}>
+                        <HighlightsEditor
+                            highlights={tailoredResume.work[0].highlights}
+                            onChange={handleHighlightsChange}
+                        />
+                    </div>
+
+                    <div style={{ display: 'flex', gap: '1rem' }}>
                         <button
-                            disabled={isProcessing || !jdInput}
-                            onClick={handleAnalyze}
+                            onClick={handleDownload}
+                            disabled={isProcessing}
                             className="btn btn-primary"
-                            style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}
+                            style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}
                         >
-                            {isProcessing ? 'Analyzing...' : 'Analyze Skills Gap'}
-                            <ChevronRight size={18} />
+                            <Download size={18} /> Download (.docx)
+                        </button>
+                        <button className="btn btn-secondary" style={{ flex: 1 }}>
+                            Stampa PDF
                         </button>
                     </div>
-                )}
+                </div>
+            )}
 
-                {view === 'report' && analysisData && (
-                    <MatchReport report={analysisData.report} onTailor={handleTailor} />
-                )}
-
-                {view === 'editor' && tailoredResume && (
-                    <div className="glass-card animate-fade">
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-                            <div>
-                                <h2 style={{ marginBottom: '0.2rem' }}>Review & Refine</h2>
-                                <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Side-by-side comparison of tailored highlights.</p>
-                            </div>
-                            <div style={{ display: 'flex', gap: '0.5rem', background: 'var(--surface)', padding: '4px', borderRadius: 'var(--radius-sm)' }}>
-                                <button
-                                    onClick={() => handleLanguageSwitch('ITA')}
-                                    className="btn btn-secondary"
-                                    style={{
-                                        padding: '6px 12px',
-                                        fontSize: '0.8rem',
-                                        background: targetLanguage === 'ITA' ? 'var(--primary)' : 'transparent',
-                                        borderColor: targetLanguage === 'ITA' ? 'var(--primary)' : 'var(--glass-border)'
-                                    }}
-                                >
-                                    <Languages size={14} style={{ marginRight: '6px' }} /> ITA
-                                </button>
-                                <button
-                                    onClick={() => handleLanguageSwitch('ENG')}
-                                    className="btn btn-secondary"
-                                    style={{
-                                        padding: '6px 12px',
-                                        fontSize: '0.8rem',
-                                        background: targetLanguage === 'ENG' ? 'var(--primary)' : 'transparent',
-                                        borderColor: targetLanguage === 'ENG' ? 'var(--primary)' : 'var(--glass-border)'
-                                    }}
-                                >
-                                    ENG
-                                </button>
-                            </div>
-                        </div>
-
-                        <div style={{ marginBottom: '2rem' }}>
-                            <BulletDiffEditor
-                                oldValue={originalResume.work[0].highlights[0].original}
-                                newValue={tailoredResume.work[0].highlights[0].tailored}
-                            />
-                        </div>
-
-                        <div style={{ display: 'flex', gap: '1rem' }}>
-                            <button className="btn btn-primary" style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
-                                <Download size={18} /> Download (.docx)
-                            </button>
-                            <button className="btn btn-secondary" style={{ flex: 1 }}>
-                                Print to PDF
-                            </button>
-                        </div>
-                    </div>
-                )}
-            </main>
-        </div>
+            <ChatWidget resume={tailoredResume || originalResume} jd={jdInput} />
+        </Layout>
     );
 };
 
