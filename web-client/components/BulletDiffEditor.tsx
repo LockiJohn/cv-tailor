@@ -17,9 +17,11 @@ const BulletDiffEditor: React.FC<DiffEditorProps> = ({ oldValue, newValue }) => 
                 compareMethod={DiffMethod.WORDS}
                 styles={{
                     variables: {
-                        diffViewerBackground: '#fff',
-                        addedBackground: '#e6ffed',
-                        removedBackground: '#ffeef0',
+                        light: {
+                            diffViewerBackground: '#fff',
+                            addedBackground: '#e6ffed',
+                            removedBackground: '#ffeef0',
+                        }
                     }
                 }}
             />
