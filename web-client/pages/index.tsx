@@ -59,13 +59,15 @@ const Dashboard = () => {
         <div className="premium-container animate-fade">
             <header style={{ marginBottom: '3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                    <h1 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>
-                        CV Tailor <span style={{ color: 'var(--primary)', fontWeight: '400' }}>AI</span>
+                    <h1 style={{ fontSize: '2.5rem', marginBottom: '0.2rem' }}>
+                        Curriculum<span style={{ color: 'var(--primary)', fontWeight: '600' }}>AI</span>
                     </h1>
-                    <p style={{ color: 'var(--text-muted)' }}>Precision tailoring for Technical Business Analysts.</p>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem', fontWeight: '300', fontStyle: 'italic' }}>
+                        Rendere chill trovare lavoro.
+                    </p>
                 </div>
                 <div style={{ padding: '0.5rem 1rem', background: 'var(--surface)', borderRadius: 'var(--radius-sm)', fontSize: '0.8rem', opacity: 0.6 }}>
-                    BETA v1.0
+                    BETA v1.1
                 </div>
             </header>
 
