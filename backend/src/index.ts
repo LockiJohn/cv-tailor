@@ -16,6 +16,9 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 
+// Health Check for Deployment
+app.get('/health', (req, res) => res.status(200).send('OK'));
+
 // Main Routes
 app.use('/api', tailorRoutes);
 
