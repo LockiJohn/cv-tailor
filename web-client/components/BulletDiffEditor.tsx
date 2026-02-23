@@ -36,7 +36,6 @@ const BulletDiffEditor: React.FC<DiffEditorProps> = ({ oldValue, newValue }) => 
                             wordRemovedBackground: 'rgba(239, 68, 68, 0.3)',
                             addedColor: '#6ee7b7',
                             removedColor: '#fca5a5',
-                            codeFoldContentBackground: 'var(--background)',
                             codeFoldBackground: 'var(--background)',
                             emptyLineBackground: 'var(--surface)',
                             gutterBackground: 'rgba(0,0,0,0.1)',
