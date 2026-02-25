@@ -1,29 +1,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Premium Palette */
-  --primary: #6366f1; /* Indigo Modern */
-  --primary-hover: #4f46e5;
-  --secondary: #ec4899; /* Pink Accent */
-  --background: #0f172a; /* Deep Slate Navy */
-  --surface: #1e293b; /* Slate Surface */
+  /* "Devastating" Pro Palette */
+  --primary: #8b5cf6;
+  /* Vibrant Violet */
+  --primary-glow: rgba(139, 92, 246, 0.5);
+  --secondary: #f43f5e;
+  /* Rose / Pulse Red */
+  --accent: #06b6d4;
+  /* Cyan Focus */
+  --background: #020617;
+  /* Eternal Deep Navy */
+  --surface: #0f172a;
+  /* Slate Surface 2.0 */
   --text: #f8fafc;
-  --text-muted: #94a3b8;
+  --text-muted: #64748b;
   --success: #10b981;
+  --success-bg: rgba(16, 185, 129, 0.1);
   --warning: #f59e0b;
   --error: #ef4444;
-  
-  /* Glassmorphism & Effects */
-  --glass-bg: rgba(30, 41, 59, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-blur: blur(12px);
-  --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  
-  /* Spacing & Radii */
+  --error-bg: rgba(239, 68, 68, 0.1);
+
+  /* Next-Gen Glassmorphism */
+  --glass-bg: rgba(15, 23, 42, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: blur(20px);
+  --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px var(--primary-glow);
+
+  /* Layout */
   --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
 }
+
 
 * {
   margin: 0;
@@ -39,7 +49,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-weight: 600;
   letter-spacing: -0.02em;
 }
@@ -98,8 +111,15 @@ h1, h2, h3, h4 {
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade {

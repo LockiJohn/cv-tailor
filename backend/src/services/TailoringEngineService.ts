@@ -9,7 +9,10 @@ export class TailoringEngineService {
     async generateVariant(resume: ResumeSchema, analysis: JDAnalysis, variantType: string): Promise<ResumeSchema> {
         const tailored = JSON.parse(JSON.stringify(resume));
 
-        // 1. Tailor Summary
+        // 1. Queue all tailoring tasks for parallel execution
+        const tailoringTasks: Promise<any>[] = [];
+
+        // Tailor Summary Task
         const summaryPrompt = `
       As a professional CV writer, tailor the following summary for a ${analysis.role} position.
       JD Summary: ${analysis.summary}
@@ -19,9 +22,11 @@ export class TailoringEngineService {
       STRICT RULE: Do NOT fabricate experience. If a skill is missing from the original, do NOT add it as a fact.
       Return ONLY the tailored summary text.
     `;
-        tailored.basics.summary = await this.gemini.generateText(summaryPrompt);
+        tailoringTasks.push(this.gemini.generateText(summaryPrompt).then(res => {
+            tailored.basics.summary = res;
+        }));
 
-        // 2. Tailor Highlights
+        // Tailor Highlights Tasks
         for (const job of tailored.work) {
             for (const bullet of job.highlights) {
                 const bulletPrompt = `
@@ -37,9 +42,15 @@ export class TailoringEngineService {
           
           Return ONLY the tailored bullet text.
         `;
-                bullet.tailored = await this.gemini.generateText(bulletPrompt);
+                tailoringTasks.push(this.gemini.generateText(bulletPrompt).then(res => {
+                    bullet.tailored = res;
+                    bullet.status = 'suggested';
+                }));
             }
         }
+
+        // 2. Execute all tasks in parallel (much faster!)
+        await Promise.all(tailoringTasks);
 
         return tailored;
     }

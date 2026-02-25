@@ -1,20 +1,29 @@
 import PizZip from 'pizzip';
-// pdf-parse is CommonJS; use require() for correct interop
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const pdfParse = require('pdf-parse') as (buffer: Buffer) => Promise<{ text: string }>;
 import { ResumeSchema } from '../types/resume';
 import { GeminiService } from './GeminiService';
+
+// Handle different export patterns of pdf-parse safely
+const pdfParseModule = require('pdf-parse');
+const pdfParse: any = (typeof pdfParseModule === 'function') ? pdfParseModule : (pdfParseModule.default || pdfParseModule);
 
 const gemini = new GeminiService();
 
 export class ParserService {
-    /**
-     * Parses a PDF file buffer and extracts all text content.
-     * Uses pdf-parse (pure JS, no native dependencies).
-     */
     async parsePDF(buffer: Buffer): Promise<string> {
-        const data = await pdfParse(buffer);
-        return data.text;
+        try {
+            console.log("[ParserService] Starting PDF parsing, buffer size:", buffer.length);
+            const data = await pdfParse(buffer);
+            console.log("[ParserService] PDF parsed successfully, text length:", data.text?.length);
+
+            if (!data.text || data.text.trim().length === 0) {
+                console.warn("[ParserService] Extracted text is empty!");
+            }
+
+            return data.text || "";
+        } catch (error) {
+            console.error("[ParserService] Error in pdf-parse:", error);
+            throw error;
+        }
     }
 
     /**

@@ -63,19 +63,32 @@ const Dashboard = () => {
 
     const handleDemo = () => {
         const sampleResume = {
-            basics: { name: "Mario Rossi", label: "Technical Business Analyst" },
+            basics: {
+                name: "Mario Rossi",
+                label: "Technical Business Analyst",
+                email: "mario.rossi@example.com",
+                phone: "+39 123 456 7890",
+                summary: "Experienced Business Analyst specializing in bridging the gap between business needs and technical solutions."
+            },
             work: [{
                 company: "FinTech Solutions",
                 position: "Business Analyst",
+                startDate: "2020",
+                endDate: "Present",
+                location: "Milano, IT",
                 highlights: [
-                    { original: "Managed requirements for a payment gateway project involving multiple stakeholders.", tailored: "" },
-                    { original: "Worked with SQL databases to extract data and create reports for the management team.", tailored: "" },
-                    { original: "Collaborated with technical teams to ensure seamless API integrations.", tailored: "" }
+                    { id: "demo-1", original: "Managed requirements for a payment gateway project involving multiple stakeholders.", tailored: "", tags: ["Stakeholder Management", "FinTech"], status: "original" },
+                    { id: "demo-2", original: "Worked with SQL databases to extract data and create reports for the management team.", tailored: "", tags: ["SQL", "Data Analysis"], status: "original" },
+                    { id: "demo-3", original: "Collaborated with technical teams to ensure seamless API integrations.", tailored: "", tags: ["API", "Collaboration"], status: "original" }
                 ]
-            }]
+            }],
+            skills: ["SQL", "Agile", "API Design", "Python"],
+            languages: ["Italiano", "Inglese"]
         };
         const sampleJD = "We are looking for a Senior Technical Business Analyst with experience in API integrations, SQL, and Agile methodologies. The candidate must be able to bridge the gap between business needs and technical implementation.";
 
+        setResume(sampleResume);
+        // Ensure handleAnalyze can run by setting originalResume as well
         setResume(sampleResume);
         setJdInput(sampleJD);
         showToast("Dati Demo caricati con successo!", "success");
