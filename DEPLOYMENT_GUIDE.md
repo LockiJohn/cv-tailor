@@ -22,7 +22,7 @@ Follow these steps to put your application online.
     - **Build Command**: `npm install && npm run build`
     - **Start Command**: `npm start`
 5.  Go to **Environment** tab and add:
-    - `GOOGLE_GEMINI_API_KEY`: `AIzaSyBUEj03-7JqcMbzuOr4bTi02dK4Vb799os`
+    - `GOOGLE_GEMINI_API_KEY`: `TU_CHIAVE_API_GEMINI`
     - `NODE_ENV`: `production`
 6.  Click **Create Web Service**. 
     - *Copy the URL produced (e.g., `https://cv-tailor-backend.onrender.com`).*

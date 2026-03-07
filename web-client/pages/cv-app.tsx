@@ -20,7 +20,6 @@ import InlineEdit from '../components/InlineEdit';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Toast, { ToastType } from '../components/Toast';
 import { ErrorTracker } from '../services/ErrorTracker';
-import ChatWidget from '../components/ChatWidget';
 import { useCVStore } from '../store/useCVStore';
 
 const Dashboard = () => {
@@ -85,7 +84,7 @@ const Dashboard = () => {
                     { id: "michele-1", original: "Progettazione e digitalizzazione flussi end-to-end per finanziamenti PMI secondo metodologia Agile.", tailored: "", tags: ["Agile", "Finanza"], status: "original" as const },
                     { id: "michele-2", original: "Analisi di processo e traduzione esigenze business in User Stories su Azure DevOps.", tailored: "", tags: ["Business Analysis", "Azure DevOps"], status: "original" as const },
                     { id: "michele-3", original: "Sviluppo dashboard Power BI e query SQL avanzate per monitoraggio SLA e performance.", tailored: "", tags: ["SQL", "Power BI"], status: "original" as const },
-                    { id: "michele-4", original: "Integrazione di strumenti AI (Copilot, ChatGPT, Claude) per l'automazione della documentazione tecnica.", tailored: "", tags: ["AI", "Automation"], status: "original" as const }
+                    { id: "michele-4", original: "Automazione della documentazione tecnica tramite integrazione di strumenti digitali avanzati.", tailored: "", tags: ["Automation"], status: "original" as const }
                 ]
             }, {
                 company: "Gruppo Montenegro",
@@ -101,14 +100,14 @@ const Dashboard = () => {
             skills: [
                 { category: "Business Analysis", keywords: ["User Stories", "Process Mapping", "UAT", "Agile"] },
                 { category: "Dati & Reporting", keywords: ["SQL", "Power BI", "Python", "Data Cleansing"] },
-                { category: "Tools & AI", keywords: ["Azure DevOps", "SAP", "Copilot", "Gemini", "Claude"] }
+                { category: "Tools", keywords: ["Azure DevOps", "SAP", "Microsoft 365", "Figma"] }
             ],
             languages: [
                 { language: "Italiano", fluency: "Madrelingua" },
                 { language: "Inglese", fluency: "Professionale (Erasmus + USA)" }
             ]
         };
-        const sampleJD = "Cercasisi Senior Technical Business Analyst per l'ottimizzazione di processi fintech. Richiesta esperienza in Agile, Azure DevOps, SQL e implementazione di soluzioni basate su intelligenza artificiale per l'automazione dei workflow.";
+        const sampleJD = "Cercasisi Senior Technical Business Analyst per l'ottimizzazione di processi fintech. Richiesta esperienza in Agile, Azure DevOps, SQL e automazione dei workflow.";
 
         setOriginalResume(sampleResume);
         setJd(sampleJD);
@@ -360,7 +359,6 @@ const Dashboard = () => {
                 </div>
             )}
 
-            <ChatWidget resume={tailoredResume || originalResume} jd={currentJd} />
         </Layout>
     );
 };
