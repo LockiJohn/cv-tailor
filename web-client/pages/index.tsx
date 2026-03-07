@@ -64,20 +64,20 @@ const projects = [
 
 const experience = [
     {
-        roleEn: "Senior Full Stack Engineer & BA",
-        roleIt: "Senior Full Stack Engineer & BA",
-        company: "Tech Solutions Inc.",
-        period: "2020 - Present",
-        descriptionEn: "Leading the development of scalable web applications. Architected microservices yielding a 40% performance improvement.",
-        descriptionIt: "Guida dello sviluppo di applicazioni web scalabili. Progettazione di microservizi con un miglioramento delle prestazioni del 40%."
+        roleEn: "Digital Process Engineer / Tech Business Analyst",
+        roleIt: "Digital Process Engineer / Tech Business Analyst",
+        company: "Moltiply Group",
+        period: "Nov 2022 - Present",
+        descriptionEn: "Driving digital transformation in credit lending for SMEs. Designing end-to-end digital processes using Agile methodologies. Analyzing business needs and translating them into technical requirements (User Stories, Azure DevOps). Implementing data analytics solutions with SQL, Python, and Power BI.",
+        descriptionIt: "Guida della trasformazione digitale nel credito alle PMI. Progettazione di flussi digitali end-to-end secondo metodologie Agile. Analisi delle esigenze di business e traduzione in requisiti tecnici (User Stories, Azure DevOps). Implementazione di soluzioni data analytics con SQL, Python e Power BI."
     },
     {
-        roleEn: "Frontend Developer",
-        roleIt: "Sviluppatore Frontend",
-        company: "Creative Digital Agency",
-        period: "2017 - 2020",
-        descriptionEn: "Specialized in creating high-performance, accessible user interfaces. Mentored junior developers and established UI guidelines.",
-        descriptionIt: "Specializzazione nella creazione di interfacce utente accessibili e ad alte prestazioni. Mentorship di sviluppatori junior e creazione di linee guida UI."
+        roleEn: "Credit Risk & Fraud Analyst",
+        roleIt: "Analista Credit Risk e Frodi",
+        company: "Gruppo Montenegro",
+        period: "Dec 2018 - Jan 2021",
+        descriptionEn: "Conducted anti-fraud investigations and creditworthiness assessments. Analyzed financial statements and payment trends to mitigate risk. Managed reporting for management and sales teams.",
+        descriptionIt: "Conduzione di indagini antifrode e valutazione dell'affidabilità creditizia dei clienti. Analisi di bilancio e dei trend di pagamento per la mitigazione del rischio. Gestione della reportistica per il management e la forza vendita."
     }
 ];
 
@@ -241,7 +241,7 @@ export default function Portfolio() {
                         <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', borderColor: 'transparent', color: 'var(--minimal-muted)' }}>
                             <Github size={18} />
                         </a>
-                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', borderColor: 'transparent', color: 'var(--minimal-muted)' }}>
+                        <a href="https://linkedin.com/in/michele-minardi-/" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', borderColor: 'transparent', color: 'var(--minimal-muted)' }}>
                             <Linkedin size={18} />
                         </a>
                     </div>
