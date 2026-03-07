@@ -6,9 +6,9 @@ import { GeminiService } from './GeminiService';
 const pdfParseModule = require('pdf-parse');
 const pdfParse: any = (typeof pdfParseModule === 'function') ? pdfParseModule : (pdfParseModule.default || pdfParseModule);
 
-const gemini = new GeminiService();
-
 export class ParserService {
+    constructor(private gemini = new GeminiService()) { }
+
     async parsePDF(buffer: Buffer): Promise<string> {
         try {
             console.log("[ParserService] Starting PDF parsing, buffer size:", buffer.length);
@@ -57,95 +57,84 @@ ${rawText}
 Return ONLY a valid JSON object with this exact structure (no markdown, no extra text):
 {
   "basics": {
-    "name": "Full name from CV",
-    "label": "Current job title/role",
-    "email": "email if present else empty string",
-    "phone": "phone if present else empty string",
-    "summary": "Professional summary or first 2-3 sentences of the CV"
+    "name": "Full name",
+    "label": "Current role",
+    "email": "email",
+    "phone": "phone",
+    "summary": "Professional summary"
   },
   "work": [
     {
-      "company": "Company name",
+      "company": "Company",
       "position": "Job title",
-      "startDate": "Start date or empty string",
-      "endDate": "End date or 'Present'",
+      "location": "City, Country",
+      "startDate": "YYYY or MM/YYYY",
+      "endDate": "YYYY or 'Present'",
       "highlights": [
-        { "original": "Key bullet point or achievement", "tailored": "" }
+        { "original": "Key bullet point or achievement", "tailored": "", "tags": ["tag1", "tag2"], "status": "original" }
       ]
     }
   ],
-  "skills": ["skill1", "skill2"],
-  "languages": ["Italian", "English"]
+  "skills": [
+    { "category": "Technical|Tools|Management", "keywords": ["Skill 1", "Skill 2"] }
+  ],
+  "languages": [
+    { "language": "English", "fluency": "Native|Fluent|Professional" }
+  ]
 }
 
-Extract up to 5 work experiences and up to 5 bullet points per job. If a section is missing, use an empty array.
+- Extract up to 5 work experiences.
+- Extract up to 5 bullet points per job.
+- For skills, group them logically into 3-5 categories.
+- Provide ONLY the JSON.
 `;
 
         try {
-            const result = await gemini.generateJson(prompt);
-            // Ensure required structure exists
-            if (!result.basics) result.basics = { name: "Unknown", label: "", email: "", phone: "", summary: rawText.substring(0, 200) };
-            if (!result.work) result.work = [];
-            if (!result.skills) result.skills = [];
-            if (!result.languages) result.languages = [];
+            const result = await this.gemini.generateJson(prompt);
 
-            // Normalize work experience to match strict ResumeSchema type
-            result.work = result.work.map((job: any, jobIdx: number) => ({
-                company: job.company || "Azienda",
-                position: job.position || "Ruolo",
-                location: job.location || "",
-                startDate: job.startDate || "",
-                endDate: job.endDate || "Present",
-                highlights: (job.highlights || []).map((h: any, hIdx: number) => ({
-                    id: `bullet-${jobIdx}-${hIdx}`,
-                    original: typeof h === 'string' ? h : (h.original || h),
-                    tailored: h.tailored || "",
-                    tags: h.tags || [],
-                    status: 'original' as const
-                }))
-            }));
-
-            return result as ResumeSchema;
-        } catch (error) {
-            console.error('[ParserService] Gemini normalization failed, falling back to raw text:', error);
-            // Graceful fallback: return minimal schema with raw text as summary
-            return {
+            // Normalize and fallback logic
+            const normalized: ResumeSchema = {
                 basics: {
-                    name: this.extractName(rawText),
-                    label: "Professional",
-                    email: this.extractEmail(rawText),
-                    phone: "",
-                    summary: rawText.substring(0, 300)
+                    name: result.basics?.name || "Candidate",
+                    label: result.basics?.label || "Professional",
+                    email: result.basics?.email || "",
+                    phone: result.basics?.phone || "",
+                    summary: result.basics?.summary || rawText.substring(0, 300)
                 },
-                work: [{
-                    company: "Esperienza (parsed dal CV)",
-                    position: "Professional",
-                    location: "",
-                    startDate: "",
-                    endDate: "Present",
-                    highlights: [
-                        {
-                            id: `bullet-fallback-0`,
-                            original: rawText.substring(0, 200),
-                            tailored: "",
-                            tags: [],
-                            status: 'original' as const
-                        }
-                    ]
-                }],
+                work: (result.work || []).map((job: any, jobIdx: number) => ({
+                    company: job.company || "Company",
+                    position: job.position || "Role",
+                    location: job.location || "",
+                    startDate: job.startDate || "",
+                    endDate: job.endDate || "Present",
+                    highlights: (job.highlights || []).map((h: any, hIdx: number) => ({
+                        id: `bullet-${jobIdx}-${hIdx}`,
+                        original: typeof h === 'string' ? h : (h.original || ""),
+                        tailored: h.tailored || "",
+                        tags: h.tags || [],
+                        status: 'original' as const
+                    }))
+                })),
+                skills: (result.skills || []).map((s: any) => ({
+                    category: s.category || "General",
+                    keywords: Array.isArray(s.keywords) ? s.keywords : []
+                })),
+                languages: (result.languages || []).map((l: any) => ({
+                    language: l.language || "Unknown",
+                    fluency: l.fluency || ""
+                }))
+            };
+
+            return normalized;
+        } catch (error) {
+            console.error('[ParserService] Gemini normalization failed:', error);
+            // Minimal fallback
+            return {
+                basics: { name: "Candidate", label: "", email: "", phone: "", summary: rawText.substring(0, 300) },
+                work: [],
                 skills: [],
                 languages: []
             };
         }
-    }
-
-    private extractName(text: string): string {
-        const firstLine = text.trim().split('\n')[0];
-        return firstLine.length < 60 ? firstLine.trim() : 'Candidate';
-    }
-
-    private extractEmail(text: string): string {
-        const match = text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
-        return match ? match[0] : '';
     }
 }

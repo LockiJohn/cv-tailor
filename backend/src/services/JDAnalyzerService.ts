@@ -2,16 +2,16 @@
 import { GeminiService } from './GeminiService';
 
 export interface JDAnalysis {
-    role: string;
-    keywords: { term: string; category: string; importance: string }[];
-    summary: string;
+  role: string;
+  keywords: { term: string; category: string; importance: string }[];
+  summary: string;
 }
 
 export class JDAnalyzerService {
-    private gemini = new GeminiService();
+  constructor(private gemini = new GeminiService()) { }
 
-    async analyzeJD(jdText: string): Promise<JDAnalysis> {
-        const prompt = `
+  async analyzeJD(jdText: string): Promise<JDAnalysis> {
+    const prompt = `
       Analyze the following Job Description and extract:
       1. The job role/title.
       2. Key technical skills, tools, and methodologies (keywords).
@@ -28,6 +28,6 @@ export class JDAnalyzerService {
       ${jdText}
     `;
 
-        return await this.gemini.generateJson(prompt);
-    }
+    return await this.gemini.generateJson(prompt);
+  }
 }

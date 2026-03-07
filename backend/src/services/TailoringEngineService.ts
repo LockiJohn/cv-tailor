@@ -4,7 +4,7 @@ import { JDAnalysis } from './JDAnalyzerService';
 import { GeminiService } from './GeminiService';
 
 export class TailoringEngineService {
-    private gemini = new GeminiService();
+    constructor(private gemini = new GeminiService()) { }
 
     async generateVariant(resume: ResumeSchema, analysis: JDAnalysis, variantType: string): Promise<ResumeSchema> {
         const tailored = JSON.parse(JSON.stringify(resume));

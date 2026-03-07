@@ -1,19 +1,38 @@
 import { create } from 'zustand';
 
 interface CVState {
+    view: 'upload' | 'report' | 'editor';
+    isProcessing: boolean;
     originalResume: any | null;
-    tailoredVariants: any[];
+    analysisData: any | null;
+    tailoredResume: any | null;
     currentJd: string;
-    setResume: (cv: any) => void;
+    targetLanguage: 'ITA' | 'ENG';
+
+    // Actions
+    setView: (view: 'upload' | 'report' | 'editor') => void;
+    setIsProcessing: (loading: boolean) => void;
+    setOriginalResume: (cv: any) => void;
+    setAnalysisData: (data: any) => void;
+    setTailoredResume: (cv: any) => void;
     setJd: (jd: string) => void;
-    addVariant: (variant: any) => void;
+    setTargetLanguage: (lang: 'ITA' | 'ENG') => void;
 }
 
 export const useCVStore = create<CVState>((set) => ({
+    view: 'upload',
+    isProcessing: false,
     originalResume: null,
-    tailoredVariants: [],
+    analysisData: null,
+    tailoredResume: null,
     currentJd: '',
-    setResume: (cv) => set({ originalResume: cv }),
-    setJd: (jd) => set({ currentJd: jd }),
-    addVariant: (variant) => set((state) => ({ tailoredVariants: [...state.tailoredVariants, variant] })),
+    targetLanguage: 'ENG',
+
+    setView: (view) => set({ view }),
+    setIsProcessing: (isProcessing) => set({ isProcessing }),
+    setOriginalResume: (originalResume) => set({ originalResume }),
+    setAnalysisData: (analysisData) => set({ analysisData }),
+    setTailoredResume: (tailoredResume) => set({ tailoredResume }),
+    setJd: (currentJd) => set({ currentJd }),
+    setTargetLanguage: (targetLanguage) => set({ targetLanguage }),
 }));

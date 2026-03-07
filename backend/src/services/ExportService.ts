@@ -17,11 +17,27 @@ export class ExportService {
 
         // Replace basic info
         xmlContent = xmlContent.replace(/\[NAME\]/g, resume.basics.name);
+        xmlContent = xmlContent.replace(/\[LABEL\]/g, resume.basics.label);
+        xmlContent = xmlContent.replace(/\[EMAIL\]/g, resume.basics.email);
+        xmlContent = xmlContent.replace(/\[PHONE\]/g, resume.basics.phone);
         xmlContent = xmlContent.replace(/\[SUMMARY\]/g, resume.basics.summary);
 
-        // Replace work highlights (simplified for POC)
+        // Format Skills
+        const skillsText = resume.skills.map(s => `${s.category}: ${s.keywords.join(', ')}`).join(' | ');
+        xmlContent = xmlContent.replace(/\[SKILLS\]/g, skillsText);
+
+        // Format Languages
+        const langsText = resume.languages.map(l => `${l.language} (${l.fluency})`).join(', ');
+        xmlContent = xmlContent.replace(/\[LANGUAGES\]/g, langsText);
+
+        // Replace work highlights
         let currentXml = xmlContent;
         resume.work.forEach((job, jobIdx) => {
+            // Basic job info
+            currentXml = currentXml.replace(new RegExp(`\\[WORK_${jobIdx}_COMPANY\\]`, 'g'), job.company);
+            currentXml = currentXml.replace(new RegExp(`\\[WORK_${jobIdx}_POSITION\\]`, 'g'), job.position);
+            currentXml = currentXml.replace(new RegExp(`\\[WORK_${jobIdx}_PERIOD\\]`, 'g'), `${job.startDate} - ${job.endDate}`);
+
             job.highlights.forEach((bullet, bulletIdx) => {
                 const placeholder = `[WORK_${jobIdx}_BULLET_${bulletIdx}]`;
                 currentXml = currentXml.replace(placeholder, bullet.tailored || bullet.original);

@@ -20,19 +20,23 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import Toast, { ToastType } from '../components/Toast';
 import { ErrorTracker } from '../services/ErrorTracker';
 import ChatWidget from '../components/ChatWidget';
+import { useCVStore } from '../store/useCVStore';
 
 const Dashboard = () => {
-    const [view, setView] = useState<'upload' | 'report' | 'editor'>('upload');
+    const {
+        view, setView,
+        isProcessing, setIsProcessing,
+        originalResume, setOriginalResume,
+        analysisData, setAnalysisData,
+        tailoredResume, setTailoredResume,
+        currentJd, setJd,
+        targetLanguage, setTargetLanguage
+    } = useCVStore();
+
     React.useEffect(() => {
         ErrorTracker.init();
     }, []);
 
-    const [jdInput, setJdInput] = useState('');
-    const [isProcessing, setIsProcessing] = useState(false);
-    const [originalResume, setResume] = useState<any>(null);
-    const [analysisData, setAnalysisData] = useState<any>(null);
-    const [tailoredResume, setTailoredResume] = useState<any>(null);
-    const [targetLanguage, setTargetLanguage] = useState<'ITA' | 'ENG'>('ENG');
     const [toast, setToast] = useState<{ message: string, type: ToastType } | null>(null);
 
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
@@ -51,7 +55,7 @@ const Dashboard = () => {
             const response = await axios.post(`${API_BASE_URL}/cv/upload`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-            setResume(response.data.resume);
+            setOriginalResume(response.data.resume);
             showToast("CV caricato e analizzato con successo!", "success");
         } catch (error) {
             console.error("Upload failed", error);
@@ -87,10 +91,8 @@ const Dashboard = () => {
         };
         const sampleJD = "We are looking for a Senior Technical Business Analyst with experience in API integrations, SQL, and Agile methodologies. The candidate must be able to bridge the gap between business needs and technical implementation.";
 
-        setResume(sampleResume);
-        // Ensure handleAnalyze can run by setting originalResume as well
-        setResume(sampleResume);
-        setJdInput(sampleJD);
+        setOriginalResume(sampleResume);
+        setJd(sampleJD);
         showToast("Dati Demo caricati con successo!", "success");
     };
 
@@ -101,7 +103,7 @@ const Dashboard = () => {
         try {
             const response = await axios.post(`${API_BASE_URL}/tailor/analyze`, {
                 resume: originalResume,
-                jdText: jdInput
+                jdText: currentJd
             });
             setAnalysisData(response.data);
             setView('report');
@@ -208,11 +210,11 @@ const Dashboard = () => {
 
                     {originalResume && (
                         <JobDescriptionInput
-                            value={jdInput}
-                            onChange={setJdInput}
+                            value={currentJd}
+                            onChange={setJd}
                             onAnalyze={handleAnalyze}
                             isProcessing={isProcessing}
-                            disabled={!jdInput}
+                            disabled={!currentJd}
                         />
                     )}
                 </>
@@ -280,7 +282,7 @@ const Dashboard = () => {
                 </div>
             )}
 
-            <ChatWidget resume={tailoredResume || originalResume} jd={jdInput} />
+            <ChatWidget resume={tailoredResume || originalResume} jd={currentJd} />
         </Layout>
     );
 };
