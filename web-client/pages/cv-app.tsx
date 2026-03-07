@@ -16,6 +16,7 @@ import UploadZone from '../components/UploadZone';
 import MatchReport from '../components/MatchReport';
 import JobDescriptionInput from '../components/JobDescriptionInput';
 import HighlightsEditor from '../components/HighlightsEditor';
+import InlineEdit from '../components/InlineEdit';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Toast, { ToastType } from '../components/Toast';
 import { ErrorTracker } from '../services/ErrorTracker';
@@ -68,28 +69,46 @@ const Dashboard = () => {
     const handleDemo = () => {
         const sampleResume = {
             basics: {
-                name: "Mario Rossi",
-                label: "Technical Business Analyst",
-                email: "mario.rossi@example.com",
-                phone: "+39 123 456 7890",
-                summary: "Experienced Business Analyst specializing in bridging the gap between business needs and technical solutions."
+                name: "Michele Minardi",
+                label: "Digital Process Engineer | Tech Business Analyst",
+                email: "michele.minardi@example.com",
+                phone: "+39 XXX XXXXXXX",
+                summary: "Digital Process Engineer con background in Credit Risk e Finanza. Esperienza internazionale (Praga, San Diego, Barcellona) e forte orientamento ai dati e alle soluzioni AI-driven."
             },
             work: [{
-                company: "FinTech Solutions",
-                position: "Business Analyst",
-                startDate: "2020",
-                endDate: "Present",
-                location: "Milano, IT",
+                company: "Moltiply Group",
+                position: "Tech Business Analyst - Digital Process Engineer",
+                startDate: "Nov 2022",
+                endDate: "Presente",
+                location: "Italia",
                 highlights: [
-                    { id: "demo-1", original: "Managed requirements for a payment gateway project involving multiple stakeholders.", tailored: "", tags: ["Stakeholder Management", "FinTech"], status: "original" },
-                    { id: "demo-2", original: "Worked with SQL databases to extract data and create reports for the management team.", tailored: "", tags: ["SQL", "Data Analysis"], status: "original" },
-                    { id: "demo-3", original: "Collaborated with technical teams to ensure seamless API integrations.", tailored: "", tags: ["API", "Collaboration"], status: "original" }
+                    { id: "michele-1", original: "Progettazione e digitalizzazione flussi end-to-end per finanziamenti PMI secondo metodologia Agile.", tailored: "", tags: ["Agile", "Finanza"], status: "original" as const },
+                    { id: "michele-2", original: "Analisi di processo e traduzione esigenze business in User Stories su Azure DevOps.", tailored: "", tags: ["Business Analysis", "Azure DevOps"], status: "original" as const },
+                    { id: "michele-3", original: "Sviluppo dashboard Power BI e query SQL avanzate per monitoraggio SLA e performance.", tailored: "", tags: ["SQL", "Power BI"], status: "original" as const },
+                    { id: "michele-4", original: "Integrazione di strumenti AI (Copilot, ChatGPT, Claude) per l'automazione della documentazione tecnica.", tailored: "", tags: ["AI", "Automation"], status: "original" as const }
+                ]
+            }, {
+                company: "Gruppo Montenegro",
+                position: "Analista Credit Risk e Frodi",
+                startDate: "Dic 2018",
+                endDate: "Gen 2021",
+                location: "Italia",
+                highlights: [
+                    { id: "michele-5", original: "Conduzione indagini antifrode su bonifici e ordini fraudolenti.", tailored: "", tags: ["Fraud Detection"], status: "original" as const },
+                    { id: "michele-6", original: "Valutazione affidabilità creditizia e analisi di bilancio per mitigazione del rischio.", tailored: "", tags: ["Risk Analysis"], status: "original" as const }
                 ]
             }],
-            skills: ["SQL", "Agile", "API Design", "Python"],
-            languages: ["Italiano", "Inglese"]
+            skills: [
+                { category: "Business Analysis", keywords: ["User Stories", "Process Mapping", "UAT", "Agile"] },
+                { category: "Dati & Reporting", keywords: ["SQL", "Power BI", "Python", "Data Cleansing"] },
+                { category: "Tools & AI", keywords: ["Azure DevOps", "SAP", "Copilot", "Gemini", "Claude"] }
+            ],
+            languages: [
+                { language: "Italiano", fluency: "Madrelingua" },
+                { language: "Inglese", fluency: "Professionale (Erasmus + USA)" }
+            ]
         };
-        const sampleJD = "We are looking for a Senior Technical Business Analyst with experience in API integrations, SQL, and Agile methodologies. The candidate must be able to bridge the gap between business needs and technical implementation.";
+        const sampleJD = "Cercasisi Senior Technical Business Analyst per l'ottimizzazione di processi fintech. Richiesta esperienza in Agile, Azure DevOps, SQL e implementazione di soluzioni basate su intelligenza artificiale per l'automazione dei workflow.";
 
         setOriginalResume(sampleResume);
         setJd(sampleJD);
@@ -259,11 +278,70 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                    <div style={{ marginBottom: '2rem' }}>
-                        <HighlightsEditor
-                            highlights={tailoredResume.work[0].highlights}
-                            onChange={handleHighlightsChange}
+                    {/* Summary Section */}
+                    <div style={{ marginBottom: '2.5rem', padding: '1.5rem', background: 'rgba(255,255,255,0.03)', borderRadius: 'var(--radius-md)', border: '1px solid var(--glass-border)' }}>
+                        <h4 style={{ fontSize: '0.9rem', color: 'var(--primary)', marginBottom: '0.8rem', textTransform: 'uppercase' }}>Riepilogo Professionale</h4>
+                        <InlineEdit
+                            value={tailoredResume.basics.summary}
+                            onSave={(val) => {
+                                const updated = { ...tailoredResume };
+                                updated.basics.summary = val;
+                                setTailoredResume(updated);
+                            }}
                         />
+                    </div>
+
+                    {/* Experiences Section */}
+                    <div style={{ marginBottom: '2.5rem' }}>
+                        <h4 style={{ fontSize: '0.9rem', color: 'var(--primary)', marginBottom: '1.2rem', textTransform: 'uppercase' }}>Esperienze Lavorative</h4>
+                        {tailoredResume.work.map((work, idx) => (
+                            <div key={idx} style={{ marginBottom: '2rem' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.8rem' }}>
+                                    <h5 style={{ fontSize: '1.1rem', color: '#fff' }}>{work.position} @ {work.company}</h5>
+                                    <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{work.startDate} - {work.endDate}</span>
+                                </div>
+                                <HighlightsEditor
+                                    highlights={work.highlights}
+                                    onChange={(newHighlights) => {
+                                        const updated = { ...tailoredResume };
+                                        updated.work[idx].highlights = newHighlights;
+                                        setTailoredResume(updated);
+                                    }}
+                                />
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Skills & Lang Grid */}
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '2.5rem' }}>
+                        <div>
+                            <h4 style={{ fontSize: '0.9rem', color: 'var(--primary)', marginBottom: '1rem', textTransform: 'uppercase' }}>Competenze Tecniche</h4>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                {tailoredResume.skills.map((skill: any, sIdx: number) => (
+                                    <div key={sIdx}>
+                                        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '4px' }}>{skill.category}</div>
+                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                                            {skill.keywords.map((k: string, kIdx: number) => (
+                                                <span key={kIdx} style={{ padding: '4px 10px', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)', borderRadius: '6px', fontSize: '0.8rem' }}>
+                                                    {k}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div>
+                            <h4 style={{ fontSize: '0.9rem', color: 'var(--primary)', marginBottom: '1rem', textTransform: 'uppercase' }}>Lingue</h4>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                                {tailoredResume.languages.map((lang: any, lIdx: number) => (
+                                    <div key={lIdx} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', background: 'var(--glass-bg)', borderRadius: '8px', border: '1px solid var(--glass-border)' }}>
+                                        <span style={{ fontWeight: '600' }}>{lang.language}</span>
+                                        <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{lang.fluency}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
 
                     <div style={{ display: 'flex', gap: '1rem' }}>
