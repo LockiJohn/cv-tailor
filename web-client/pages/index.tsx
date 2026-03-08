@@ -83,6 +83,14 @@ const experience = [
 
 const blogPosts = [
     {
+        titleEn: "On the Democratization of Software Creation",
+        titleIt: "Sulla democratizzazione della creazione di software",
+        date: "March 8, 2026",
+        readTimeEn: "12 min read",
+        readTimeIt: "12 min di lettura",
+        link: "/blog/agentic-coding"
+    },
+    {
         titleEn: "All Measures Are Hackable",
         titleIt: "Tutte le misure sono hackerabili",
         date: "March 8, 2026",
