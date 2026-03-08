@@ -547,7 +547,7 @@ export default function Portfolio() {
                 <div style={{ borderTop: `1px solid ${funMode ? 'rgba(192, 132, 252, 0.2)' : 'var(--minimal-border)'}`, paddingTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                     <span style={{ fontSize: '0.75rem', color: funMode ? 'rgba(196,168,224,0.6)' : 'var(--minimal-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{t.menuExternal}</span>
                     <a href="/open-prometeo.html" target="_blank" rel="noopener noreferrer" className={`sidebar-link ${funMode ? 'sidebar-link-fun' : ''}`}><LinkIcon size={16} /> Open Prometeo</a>
-                    <a href="#" target="_blank" rel="noopener noreferrer" className={`sidebar-link ${funMode ? 'sidebar-link-fun' : ''}`}><LinkIcon size={16} /> Ailingo</a>
+                    <a href="https://ailingo.vercel.app/" target="_blank" rel="noopener noreferrer" className={`sidebar-link ${funMode ? 'sidebar-link-fun' : ''}`}><LinkIcon size={16} /> Ailingo</a>
                 </div>
             </div>
 
