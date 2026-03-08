@@ -53,12 +53,22 @@ const projects = [
         previewGradient: "linear-gradient(135deg, #8b5cf622, #ec489922)"
     },
     {
+        title: "OpenPrometeo",
+        descriptionEn: "An Instagram philosophy & art page exploring mental models, existential themes, and visual storytelling. 12K+ followers, 1400+ posts. The folio between Psychology and Aesthetics.",
+        descriptionIt: "Una pagina Instagram di Filosofia e Arte che esplora modelli mentali, temi esistenziali e visual storytelling. 12K+ follower, 1400+ post. Il confine tra Psicologia ed Estetica.",
+        tags: ["Philosophy", "Visual Art", "Storytelling", "12K+ followers"],
+        year: "2020–",
+        previewGradient: "linear-gradient(135deg, #7c3aed22, #a78bfa22)",
+        link: "https://www.instagram.com/openprometeo_"
+    },
+    {
         title: "Worms Bazooka & Space Impact",
         descriptionEn: "Modern web-based recreations of classic games, built from scratch using HTML5 Canvas and vanilla JavaScript.",
         descriptionIt: "Vero e proprio remake web di giochi classici, creati da zero usando HTML5 Canvas e vanilla JavaScript.",
         tags: ["Game Dev", "JavaScript", "Canvas API"],
         year: "2024",
-        previewGradient: "linear-gradient(135deg, #f59e0b22, #ef444422)"
+        previewGradient: "linear-gradient(135deg, #f59e0b22, #ef444422)",
+        link: null
     }
 ];
 
@@ -292,64 +302,69 @@ export default function Portfolio() {
                 <section style={{ marginBottom: '6rem' }}>
                     <h2 className="section-title">{t.projectsTitle}</h2>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '2rem' }}>
-                        {projects.map((project, index) => (
-                            <div key={index} style={{
-                                background: 'transparent',
-                                border: '1px solid var(--minimal-border)',
-                                borderRadius: '12px',
-                                overflow: 'hidden',
-                                transition: 'transform 0.2s ease, border-color 0.2s ease',
-                                cursor: 'pointer',
-                                display: 'flex',
-                                flexDirection: 'column'
-                            }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-4px)';
-                                    e.currentTarget.style.borderColor = 'var(--minimal-muted)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.borderColor = 'var(--minimal-border)';
-                                }}
-                            >
-                                {/* Visual Preview Box */}
+                        {projects.map((project, index) => {
+                            const card = (
                                 <div style={{
-                                    height: '140px',
-                                    background: project.previewGradient,
-                                    borderBottom: '1px solid var(--minimal-border)',
+                                    background: 'transparent',
+                                    border: '1px solid var(--minimal-border)',
+                                    borderRadius: '12px',
+                                    overflow: 'hidden',
+                                    transition: 'transform 0.2s ease, border-color 0.2s ease',
+                                    cursor: project.link ? 'pointer' : 'default',
                                     display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}>
-                                    {/* Placeholder for project image/icon */}
-                                    <ExternalLink size={32} opacity={0.3} color="var(--minimal-accent)" />
-                                </div>
+                                    flexDirection: 'column',
+                                    height: '100%'
+                                }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(-4px)';
+                                        e.currentTarget.style.borderColor = 'var(--minimal-muted)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(0)';
+                                        e.currentTarget.style.borderColor = 'var(--minimal-border)';
+                                    }}
+                                >
+                                    {/* Visual Preview Box */}
+                                    <div style={{
+                                        height: '140px',
+                                        background: project.previewGradient,
+                                        borderBottom: '1px solid var(--minimal-border)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}>
+                                        <ExternalLink size={32} opacity={project.link ? 0.5 : 0.3} color="var(--minimal-accent)" />
+                                    </div>
 
-                                <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                                        <h3 style={{ fontSize: '1.2rem', fontWeight: 500, color: 'var(--minimal-text)' }}>{project.title}</h3>
-                                        <span style={{ fontSize: '0.8rem', color: 'var(--minimal-muted)', fontFamily: 'monospace' }}>{project.year}</span>
-                                    </div>
-                                    <p style={{ color: 'var(--minimal-muted)', fontSize: '0.95rem', marginBottom: '1.5rem', lineHeight: 1.5, flex: 1 }}>
-                                        {lang === 'en' ? project.descriptionEn : project.descriptionIt}
-                                    </p>
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                                        {project.tags.map(tag => (
-                                            <span key={tag} style={{
-                                                fontSize: '0.75rem',
-                                                color: 'var(--minimal-muted)',
-                                                background: '#090909',
-                                                padding: '4px 8px',
-                                                borderRadius: '4px',
-                                                border: '1px solid var(--minimal-border)'
-                                            }}>
-                                                {tag}
-                                            </span>
-                                        ))}
+                                    <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                                            <h3 style={{ fontSize: '1.2rem', fontWeight: 500, color: 'var(--minimal-text)' }}>{project.title}</h3>
+                                            <span style={{ fontSize: '0.8rem', color: 'var(--minimal-muted)', fontFamily: 'monospace' }}>{project.year}</span>
+                                        </div>
+                                        <p style={{ color: 'var(--minimal-muted)', fontSize: '0.95rem', marginBottom: '1.5rem', lineHeight: 1.5, flex: 1 }}>
+                                            {lang === 'en' ? project.descriptionEn : project.descriptionIt}
+                                        </p>
+                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                                            {project.tags.map(tag => (
+                                                <span key={tag} style={{
+                                                    fontSize: '0.75rem',
+                                                    color: 'var(--minimal-muted)',
+                                                    background: '#090909',
+                                                    padding: '4px 8px',
+                                                    borderRadius: '4px',
+                                                    border: '1px solid var(--minimal-border)'
+                                                }}>
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                            return project.link
+                                ? <a key={index} href={project.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block' }}>{card}</a>
+                                : <div key={index}>{card}</div>;
+                        })}
                     </div>
                 </section>
 
