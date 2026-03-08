@@ -10,7 +10,7 @@ const translations = {
         title: "Michele | BA Analyst, Tech Savvy and Finance",
         greeting: "Hi, I'm Michele.",
         role: "BA Analyst, Tech Savvy and Finance.",
-        intro: "I build robust, elegant, and user-centric web applications. Passionate about exploring complex problems and finding simple, effective solutions. (And analyzing business requirements while optimizing financial flows... obviously).",
+        intro: "Digital Engineer. Business Analyst. Investor. Traveler. AI Lover. Curious mind.\n\nAll of the above. None of the above.",
         emailBtn: "Email Me",
         experienceTitle: "Work Experience",
         projectsTitle: "Selected Projects",
@@ -23,7 +23,7 @@ const translations = {
         title: "Michele | BA Analyst, Tech Savvy and Finance",
         greeting: "Ciao, sono Michele.",
         role: "BA Analyst, Tech Savvy e Finance.",
-        intro: "Sviluppo applicazioni web robuste, eleganti e incentrate sull'utente. Appassionato nell'esplorare problemi complessi e trovare soluzioni semplici ed efficaci. (E analizzare requisiti di business ottimizzando i flussi finanziari... ovviamente).",
+        intro: "Digital Engineer. Business Analyst. Investor. Traveler. AI Lover. Curious mind.\n\nAll of the above. None of the above.",
         emailBtn: "Scrivimi",
         experienceTitle: "Esperienza Lavorativa",
         projectsTitle: "Progetti Selezionati",
@@ -82,6 +82,14 @@ const experience = [
 ];
 
 const blogPosts = [
+    {
+        titleEn: "Goodhart's Law Is the Problem of the Century",
+        titleIt: "La Legge di Goodhart è il problema del secolo",
+        date: "March 8, 2026",
+        readTimeEn: "8 min read",
+        readTimeIt: "8 min di lettura",
+        link: "/blog/goodharts-law"
+    },
     {
         titleEn: "The Future of AI in Language Learning",
         titleIt: "Il Futuro dell'IA nell'Apprendimento delle Lingue",
@@ -231,7 +239,7 @@ export default function Portfolio() {
                         {t.greeting}<br />
                         <span style={{ color: 'var(--minimal-muted)' }}>{t.role}</span>
                     </h1>
-                    <p style={{ fontSize: '1.2rem', color: 'var(--minimal-muted)', maxWidth: '600px', marginBottom: '2rem', lineHeight: 1.6 }}>
+                    <p style={{ fontSize: '1.2rem', color: 'var(--minimal-muted)', maxWidth: '600px', marginBottom: '2rem', lineHeight: 1.6, whiteSpace: 'pre-line' }}>
                         {t.intro}
                     </p>
                     <div style={{ display: 'flex', gap: '1rem' }}>
