@@ -85,9 +85,14 @@ const projects = [
 ];
 
 const financialAssets = [
+    { ticker: "MSTR", name: "MicroStrategy", price: "$1,625.30", return: "+412.8%", isPositive: true },
     { ticker: "NVDA", name: "Nvidia", price: "$875.28", return: "+185.4%", isPositive: true },
+    { ticker: "AMD", name: "AMD", price: "$180.45", return: "+65.2%", isPositive: true },
+    { ticker: "TSM", name: "TSMC", price: "$145.20", return: "+42.5%", isPositive: true },
+    { ticker: "MSFT", name: "Microsoft", price: "$420.55", return: "+58.7%", isPositive: true },
+    { ticker: "AMZN", name: "Amazon", price: "$178.15", return: "+52.3%", isPositive: true },
+    { ticker: "GOOGL", name: "Alphabet", price: "$152.00", return: "+40.1%", isPositive: true },
     { ticker: "SONY", name: "Sony Group", price: "$85.50", return: "+12.3%", isPositive: true },
-    { ticker: "FAANG", name: "FAANG ETF", price: "$120.45", return: "+45.8%", isPositive: true },
     { ticker: "CY4.MI", name: "Cy4Gate", price: "€5.20", return: "-8.5%", isPositive: false },
 ];
 
