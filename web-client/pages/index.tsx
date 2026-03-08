@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import { Github, Linkedin, Mail, ExternalLink, Globe, BookOpen, Sparkles } from 'lucide-react';
+import { Github, Linkedin, Mail, ExternalLink, Globe, BookOpen, Sparkles, TrendingUp } from 'lucide-react';
 import Layout from '../components/Layout';
 import { ErrorTracker } from '../services/ErrorTracker';
 
@@ -20,6 +20,8 @@ const translations = {
         footer: "Crafted with care.",
         funOn: "✦ Fun Mode",
         funOff: "✦ Minimal",
+        financeTitle: "Financial Portfolio (Facsimile)",
+        financeDisclaimer: "* Not financial advice. This is a facsimile portfolio.",
     },
     it: {
         title: "Michele | BA Analyst, Tech Savvy and Finance",
@@ -35,6 +37,8 @@ const translations = {
         footer: "Creato con cura.",
         funOn: "✦ Fun Mode",
         funOff: "✦ Minimal",
+        financeTitle: "Portafoglio Finanziario (Facsimile)",
+        financeDisclaimer: "* Non sono consigli finanziari. Questo è un portafoglio facsimile.",
     }
 };
 
@@ -78,6 +82,13 @@ const projects = [
         funGradient: "linear-gradient(135deg, #fbbf2455, #ef444455)",
         link: null
     }
+];
+
+const financialAssets = [
+    { ticker: "NVDA", name: "Nvidia", price: "$875.28", return: "+185.4%", isPositive: true },
+    { ticker: "SONY", name: "Sony Group", price: "$85.50", return: "+12.3%", isPositive: true },
+    { ticker: "FAANG", name: "FAANG ETF", price: "$120.45", return: "+45.8%", isPositive: true },
+    { ticker: "CY4.MI", name: "Cy4Gate", price: "€5.20", return: "-8.5%", isPositive: false },
 ];
 
 const experience = [
@@ -598,6 +609,63 @@ export default function Portfolio() {
                                 : <div key={index}>{card}</div>;
                         })}
                     </div>
+                </section>
+
+                {/* Financial Portfolio */}
+                <section style={{ marginBottom: '6rem' }}>
+                    <h2 className="section-title">{translations[lang].financeTitle}</h2>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '1.5rem' }}>
+                        {financialAssets.map((asset, index) => (
+                            <div key={index}
+                                style={{
+                                    padding: '1.25rem',
+                                    border: funMode ? '1px solid rgba(251, 191, 36, 0.3)' : '1px solid var(--minimal-border)',
+                                    borderRadius: '8px',
+                                    display: 'flex', flexDirection: 'column', gap: '0.25rem',
+                                    background: funMode ? 'rgba(251, 191, 36, 0.05)' : 'transparent',
+                                    backdropFilter: funMode ? 'blur(8px)' : 'none',
+                                    transition: 'all 0.3s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-2px)';
+                                    if (funMode) e.currentTarget.style.boxShadow = '0 0 15px rgba(251, 191, 36, 0.15)';
+                                    else e.currentTarget.style.borderColor = 'var(--minimal-muted)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    if (funMode) e.currentTarget.style.boxShadow = 'none';
+                                    else e.currentTarget.style.borderColor = 'var(--minimal-border)';
+                                }}
+                            >
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <span style={{ fontWeight: 600, fontSize: '1.1rem', color: funMode ? '#fbbf24' : 'var(--minimal-text)' }}>{asset.ticker}</span>
+                                    <span style={{ fontSize: '0.8rem', color: funMode ? '#c4a8e0' : 'var(--minimal-muted)' }}>{asset.name}</span>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: '0.75rem' }}>
+                                    <span style={{ fontFamily: 'monospace', fontSize: '1.1rem', color: funMode ? '#f0e6ff' : 'var(--minimal-text)' }}>{asset.price}</span>
+                                    <span style={{
+                                        fontSize: '0.9rem', fontWeight: 500,
+                                        display: 'flex', alignItems: 'center', gap: '0.25rem',
+                                        color: asset.isPositive
+                                            ? (funMode ? '#34d399' : '#10b981')
+                                            : (funMode ? '#f87171' : '#ef4444')
+                                    }}>
+                                        <TrendingUp size={14} style={{ transform: asset.isPositive ? 'none' : 'scaleY(-1)' }} />
+                                        {asset.return}
+                                    </span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <p style={{
+                        fontSize: '0.75rem',
+                        color: funMode ? 'rgba(196, 168, 224, 0.6)' : 'var(--minimal-muted)',
+                        marginTop: '1.5rem',
+                        fontStyle: 'italic',
+                        opacity: 0.8
+                    }}>
+                        {translations[lang].financeDisclaimer}
+                    </p>
                 </section>
 
                 {/* Blog */}
