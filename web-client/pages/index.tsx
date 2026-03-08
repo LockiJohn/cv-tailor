@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import { Github, Linkedin, Mail, ArrowRight, ExternalLink, Globe, BookOpen } from 'lucide-react';
+import { Github, Linkedin, Mail, ExternalLink, Globe, BookOpen, Sparkles } from 'lucide-react';
 import Layout from '../components/Layout';
 import { ErrorTracker } from '../services/ErrorTracker';
 
@@ -17,7 +17,9 @@ const translations = {
         blogTitle: "Latest Articles",
         contactTitle: "Get In Touch",
         contactText: "I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.",
-        footer: "Crafted with care."
+        footer: "Crafted with care.",
+        funOn: "✦ Fun Mode",
+        funOff: "✦ Minimal",
     },
     it: {
         title: "Michele | BA Analyst, Tech Savvy and Finance",
@@ -30,7 +32,9 @@ const translations = {
         blogTitle: "Ultimi Articoli",
         contactTitle: "Contattami",
         contactText: "Sono sempre aperto a discutere di nuovi progetti, idee creative o opportunità per far parte della tua visione.",
-        footer: "Creato con cura."
+        footer: "Creato con cura.",
+        funOn: "✦ Fun Mode",
+        funOff: "✦ Minimal",
     }
 };
 
@@ -42,7 +46,8 @@ const projects = [
         descriptionIt: "Una piattaforma per l'apprendimento delle lingue basata sull'IA, focalizzata su esercizi personalizzati e generazione dinamica dei contenuti.",
         tags: ["Next.js", "TypeScript", "Python", "FastAPI", "GenAI"],
         year: "2025",
-        previewGradient: "linear-gradient(135deg, #10b98122, #06b6d422)"
+        previewGradient: "linear-gradient(135deg, #10b98122, #06b6d422)",
+        funGradient: "linear-gradient(135deg, #06b6d455, #10b98155)",
     },
     {
         title: "CV Tailor AI",
@@ -50,7 +55,8 @@ const projects = [
         descriptionIt: "Uno strumento intelligente che adatta automaticamente il tuo CV a specifiche offerte di lavoro utilizzando l'analisi LLM avanzata.",
         tags: ["React", "Express", "Node.js", "Tailwind"],
         year: "2024",
-        previewGradient: "linear-gradient(135deg, #8b5cf622, #ec489922)"
+        previewGradient: "linear-gradient(135deg, #8b5cf622, #ec489922)",
+        funGradient: "linear-gradient(135deg, #c084fc55, #ec489955)",
     },
     {
         title: "OpenPrometeo",
@@ -59,6 +65,7 @@ const projects = [
         tags: ["Philosophy", "Visual Art", "Storytelling", "12K+ followers"],
         year: "2020–",
         previewGradient: "linear-gradient(135deg, #7c3aed22, #a78bfa22)",
+        funGradient: "linear-gradient(135deg, #7c3aed66, #fbbf2444)",
         link: "https://www.instagram.com/openprometeo_"
     },
     {
@@ -68,6 +75,7 @@ const projects = [
         tags: ["Game Dev", "JavaScript", "Canvas API"],
         year: "2024",
         previewGradient: "linear-gradient(135deg, #f59e0b22, #ef444422)",
+        funGradient: "linear-gradient(135deg, #fbbf2455, #ef444455)",
         link: null
     }
 ];
@@ -134,9 +142,57 @@ const blogPosts = [
     }
 ];
 
-// --- Flower of Life SVG Component ---
-const FlowerOfLife = ({ className = "" }: { className?: string }) => (
-    <svg viewBox="0 0 100 100" className={`w-full h-full ${className}`} fill="none" stroke="currentColor" strokeWidth="0.5">
+// --- Sacred Geometry SVG Background ---
+const SacredGeoBg = () => (
+    <svg
+        viewBox="0 0 800 800"
+        style={{
+            position: 'fixed', top: '50%', left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '100vmax', height: '100vmax',
+            opacity: 0.06, pointerEvents: 'none', zIndex: 0,
+            animation: 'spin-bg 120s linear infinite'
+        }}
+        fill="none" stroke="#c084fc" strokeWidth="0.8"
+    >
+        {/* Flower of Life - large central */}
+        {[0, 60, 120, 180, 240, 300].map((angle, i) => {
+            const rad = (angle * Math.PI) / 180;
+            const cx = 400 + 80 * Math.cos(rad);
+            const cy = 400 + 80 * Math.sin(rad);
+            return <circle key={i} cx={cx} cy={cy} r={80} />;
+        })}
+        <circle cx="400" cy="400" r="80" />
+        {/* Outer ring */}
+        {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((angle, i) => {
+            const rad = (angle * Math.PI) / 180;
+            const cx = 400 + 160 * Math.cos(rad);
+            const cy = 400 + 160 * Math.sin(rad);
+            return <circle key={`o${i}`} cx={cx} cy={cy} r={80} />;
+        })}
+        {/* Metatron's cube lines */}
+        {[0, 60, 120, 180, 240, 300].map((a, i) => {
+            const r = (a * Math.PI) / 180;
+            return [0, 60, 120, 180, 240, 300].map((b, j) => {
+                const r2 = (b * Math.PI) / 180;
+                return <line key={`l${i}${j}`}
+                    x1={400 + 160 * Math.cos(r)} y1={400 + 160 * Math.sin(r)}
+                    x2={400 + 160 * Math.cos(r2)} y2={400 + 160 * Math.sin(r2)}
+                />;
+            });
+        })}
+        {/* Outer big circles */}
+        <circle cx="400" cy="400" r="240" />
+        <circle cx="400" cy="400" r="320" />
+        <circle cx="400" cy="400" r="160" />
+    </svg>
+);
+
+// --- Flower of Life SVG (hero icon) ---
+const FlowerOfLife = ({ funMode }: { funMode: boolean }) => (
+    <svg viewBox="0 0 100 100" className="w-full h-full" fill="none"
+        stroke={funMode ? '#fbbf24' : 'currentColor'} strokeWidth="0.5"
+        style={{ filter: funMode ? 'drop-shadow(0 0 8px #fbbf2488)' : 'none' }}>
         <circle cx="50" cy="50" r="15" />
         <circle cx="50" cy="35" r="15" />
         <circle cx="63" cy="42.5" r="15" />
@@ -147,17 +203,13 @@ const FlowerOfLife = ({ className = "" }: { className?: string }) => (
     </svg>
 );
 
-
 export default function Portfolio() {
     const [lang, setLang] = useState<'en' | 'it'>('en');
+    const [funMode, setFunMode] = useState(false);
 
     useEffect(() => {
         ErrorTracker.init();
     }, []);
-
-    const toggleLanguage = () => {
-        setLang(prev => prev === 'en' ? 'it' : 'en');
-    };
 
     const t = translations[lang];
 
@@ -168,7 +220,6 @@ export default function Portfolio() {
                 <meta name="description" content="Portfolio and Resume of Michele." />
             </Head>
 
-            {/* Custom Styles for Minimal Theme */}
             <style jsx global>{`
                 :root {
                     --minimal-bg: #0a0a0a;
@@ -178,45 +229,55 @@ export default function Portfolio() {
                     --minimal-border: #222222;
                     --minimal-accent: #ffffff;
                 }
-                
+
                 body {
-                    background-color: var(--minimal-bg) !important;
-                    color: var(--minimal-text) !important;
+                    background-color: ${funMode ? '#0d0520' : 'var(--minimal-bg)'} !important;
+                    color: ${funMode ? '#f0e6ff' : 'var(--minimal-text)'} !important;
                     font-family: 'Inter', 'Outfit', sans-serif;
+                    transition: background-color 0.6s ease, color 0.6s ease;
                 }
 
                 .minimal-container {
                     max-width: 800px;
                     margin: 0 auto;
                     padding: 4rem 2rem;
+                    position: relative;
+                    z-index: 1;
                 }
 
                 .section-title {
                     font-size: 1.5rem;
                     font-weight: 500;
                     margin-bottom: 2rem;
-                    color: var(--minimal-accent);
                     display: flex;
                     align-items: center;
                     gap: 0.75rem;
+                    ${funMode ? `
+                        background: linear-gradient(90deg, #c084fc, #fbbf24);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        background-clip: text;
+                    ` : `color: var(--minimal-accent);`}
                 }
 
                 .section-title::after {
                     content: '';
                     flex: 1;
                     height: 1px;
-                    background: var(--minimal-border);
+                    background: ${funMode
+                    ? 'linear-gradient(90deg, #7c3aed44, transparent)'
+                    : 'var(--minimal-border)'};
                     margin-top: 4px;
                 }
 
-                /* Flower of Life Header Animation */
                 .flower-wrapper {
                     width: 64px;
                     height: 64px;
                     margin-bottom: 2rem;
                     color: var(--minimal-muted);
-                    animation: spin-slow 60s linear infinite;
-                    opacity: 0.8;
+                    animation: spin-slow ${funMode ? '15s' : '60s'} linear infinite;
+                    opacity: ${funMode ? 1 : 0.8};
+                    transition: all 0.6s ease;
                 }
 
                 @keyframes spin-slow {
@@ -224,136 +285,307 @@ export default function Portfolio() {
                     to { transform: rotate(360deg); }
                 }
 
-                /* Layout overrides for header to keep it clean */
+                @keyframes spin-bg {
+                    from { transform: translate(-50%, -50%) rotate(0deg); }
+                    to { transform: translate(-50%, -50%) rotate(360deg); }
+                }
+
+                @keyframes pulse-glow {
+                    0%, 100% { box-shadow: 0 0 15px rgba(192, 132, 252, 0.2); }
+                    50% { box-shadow: 0 0 30px rgba(192, 132, 252, 0.5); }
+                }
+
+                /* Hide Layout header */
                 header { display: none !important; }
 
-                /* Toggle Switch */
-                .lang-toggle {
+                /* Controls row */
+                .controls-row {
                     position: fixed;
                     top: 1.5rem;
                     right: 1.5rem;
-                    background: var(--minimal-surface);
-                    border: 1px solid var(--minimal-border);
+                    display: flex;
+                    gap: 0.75rem;
+                    z-index: 100;
+                }
+
+                .ctrl-btn {
                     border-radius: 20px;
                     padding: 0.4rem 1rem;
                     display: flex;
                     align-items: center;
                     gap: 0.5rem;
                     cursor: pointer;
-                    color: var(--minimal-text);
-                    z-index: 100;
                     font-size: 0.85rem;
-                    transition: border-color 0.2s;
+                    transition: all 0.3s ease;
+                    border: 1px solid;
+                    font-family: inherit;
                 }
-                .lang-toggle:hover {
-                    border-color: var(--minimal-muted);
+
+                .ctrl-btn.lang {
+                    background: ${funMode ? 'rgba(124,58,237,0.2)' : '#121212'};
+                    border-color: ${funMode ? '#7c3aed' : '#222222'};
+                    color: ${funMode ? '#c084fc' : '#eaeaea'};
+                    backdrop-filter: ${funMode ? 'blur(10px)' : 'none'};
+                }
+
+                .ctrl-btn.fun {
+                    background: ${funMode
+                    ? 'linear-gradient(135deg, #7c3aed, #c084fc)'
+                    : '#121212'};
+                    border-color: ${funMode ? '#c084fc' : '#444'};
+                    color: ${funMode ? '#fff' : '#888'};
+                    animation: ${funMode ? 'pulse-glow 3s ease infinite' : 'none'};
+                    font-weight: ${funMode ? '600' : '400'};
+                }
+
+                .ctrl-btn:hover {
+                    transform: translateY(-1px);
+                }
+
+                /* Fun mode card styles */
+                .project-card-fun {
+                    background: rgba(124, 58, 237, 0.08) !important;
+                    border: 1px solid rgba(124, 58, 237, 0.3) !important;
+                    backdrop-filter: blur(12px);
+                    transition: all 0.3s ease !important;
+                }
+
+                .project-card-fun:hover {
+                    border-color: rgba(192, 132, 252, 0.6) !important;
+                    box-shadow: 0 0 25px rgba(192, 132, 252, 0.2) !important;
+                    transform: translateY(-6px) !important;
+                }
+
+                .tag-fun {
+                    background: rgba(124, 58, 237, 0.15) !important;
+                    border-color: rgba(124, 58, 237, 0.4) !important;
+                    color: #c084fc !important;
+                }
+
+                .blog-row-fun {
+                    border: 1px solid rgba(124, 58, 237, 0.25) !important;
+                    background: rgba(124, 58, 237, 0.05) !important;
+                    backdrop-filter: blur(10px);
+                }
+
+                .blog-row-fun:hover {
+                    background: rgba(124, 58, 237, 0.15) !important;
+                    border-color: rgba(192, 132, 252, 0.5) !important;
+                    box-shadow: 0 0 20px rgba(192, 132, 252, 0.15) !important;
+                }
+
+                .exp-card-fun {
+                    border-left: 1px solid rgba(251, 191, 36, 0.4) !important;
+                    position: relative;
+                }
+
+                .exp-card-fun::before {
+                    content: '✦';
+                    position: absolute;
+                    left: -0.65rem;
+                    top: 0;
+                    color: #fbbf24;
+                    font-size: 0.7rem;
+                    background: #0d0520;
+                    padding: 2px 0;
+                }
+
+                .contact-section-fun {
+                    background: rgba(124, 58, 237, 0.1) !important;
+                    border: 1px solid rgba(124, 58, 237, 0.3) !important;
+                    backdrop-filter: blur(15px);
+                    animation: pulse-glow 4s ease infinite;
                 }
             `}</style>
 
-            <button className="lang-toggle" onClick={toggleLanguage}>
-                <Globe size={14} /> {lang === 'en' ? 'IT' : 'EN'}
-            </button>
+            {/* Sacred geometry background - only in fun mode */}
+            {funMode && <SacredGeoBg />}
+
+            {/* Controls */}
+            <div className="controls-row">
+                <button className="ctrl-btn fun" onClick={() => setFunMode(f => !f)}>
+                    <Sparkles size={13} /> {funMode ? t.funOff : t.funOn}
+                </button>
+                <button className="ctrl-btn lang" onClick={() => setLang(l => l === 'en' ? 'it' : 'en')}>
+                    <Globe size={13} /> {lang === 'en' ? 'IT' : 'EN'}
+                </button>
+            </div>
 
             <div className="minimal-container animate-fade">
 
-                {/* Hero Section */}
+                {/* Hero */}
                 <section style={{ marginBottom: '6rem' }}>
                     <div className="flower-wrapper">
-                        <FlowerOfLife />
+                        <FlowerOfLife funMode={funMode} />
                     </div>
-                    <h1 style={{ fontSize: '3rem', fontWeight: 600, letterSpacing: '-0.04em', marginBottom: '1rem', lineHeight: 1.1 }}>
-                        {t.greeting}<br />
-                        <span style={{ color: 'var(--minimal-muted)' }}>{t.role}</span>
+                    <h1 style={{
+                        fontSize: '3rem', fontWeight: 600,
+                        letterSpacing: '-0.04em', marginBottom: '1rem', lineHeight: 1.1,
+                        ...(funMode ? {
+                            background: 'linear-gradient(135deg, #f0e6ff, #c084fc, #fbbf24)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            backgroundClip: 'text',
+                        } : {})
+                    }}>
+                        {translations[lang].greeting}<br />
+                        <span style={{ color: funMode ? '#a78bfa' : 'var(--minimal-muted)', WebkitTextFillColor: funMode ? '#a78bfa' : undefined }}>
+                            {translations[lang].role}
+                        </span>
                     </h1>
-                    <p style={{ fontSize: '1.2rem', color: 'var(--minimal-muted)', maxWidth: '600px', marginBottom: '2rem', lineHeight: 1.6, whiteSpace: 'pre-line' }}>
-                        {t.intro}
+                    <p style={{
+                        fontSize: '1.2rem',
+                        color: funMode ? '#c084fc' : 'var(--minimal-muted)',
+                        maxWidth: '600px', marginBottom: '2rem',
+                        lineHeight: 1.6, whiteSpace: 'pre-line',
+                        transition: 'color 0.4s ease'
+                    }}>
+                        {translations[lang].intro}
                     </p>
                     <div style={{ display: 'flex', gap: '1rem' }}>
-                        <a href="mailto:michele.minardi.1992@gmail.com" className="btn btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'var(--minimal-surface)', borderColor: 'var(--minimal-border)', color: 'var(--minimal-text)' }}>
-                            <Mail size={16} /> {t.emailBtn}
+                        <a href="mailto:michele.minardi.1992@gmail.com" style={{
+                            display: 'flex', alignItems: 'center', gap: '0.5rem',
+                            padding: '0.6rem 1.2rem', borderRadius: '8px',
+                            textDecoration: 'none', fontFamily: 'inherit', fontSize: '0.9rem',
+                            cursor: 'pointer',
+                            background: funMode ? 'rgba(124,58,237,0.2)' : '#121212',
+                            border: `1px solid ${funMode ? '#7c3aed' : '#222'}`,
+                            color: funMode ? '#c084fc' : '#eaeaea',
+                            transition: 'all 0.3s ease',
+                            backdropFilter: funMode ? 'blur(10px)' : 'none',
+                        }}>
+                            <Mail size={16} /> {translations[lang].emailBtn}
                         </a>
-                        <a href="https://github.com/LockiJohn/openprometeo.github.io/blob/main/index.html" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', borderColor: 'transparent', color: 'var(--minimal-muted)' }}>
+                        <a href="https://github.com/LockiJohn/openprometeo.github.io/blob/main/index.html"
+                            target="_blank" rel="noopener noreferrer" style={{
+                                display: 'flex', alignItems: 'center', gap: '0.5rem',
+                                padding: '0.6rem', borderRadius: '8px', textDecoration: 'none',
+                                background: 'transparent', border: '1px solid transparent',
+                                color: funMode ? '#a78bfa' : '#888888',
+                                transition: 'color 0.3s ease',
+                            }}>
                             <Github size={18} />
                         </a>
-                        <a href="https://linkedin.com/in/michele-minardi-/" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', borderColor: 'transparent', color: 'var(--minimal-muted)' }}>
+                        <a href="https://linkedin.com/in/michele-minardi-/"
+                            target="_blank" rel="noopener noreferrer" style={{
+                                display: 'flex', alignItems: 'center', gap: '0.5rem',
+                                padding: '0.6rem', borderRadius: '8px', textDecoration: 'none',
+                                background: 'transparent', border: '1px solid transparent',
+                                color: funMode ? '#a78bfa' : '#888888',
+                                transition: 'color 0.3s ease',
+                            }}>
                             <Linkedin size={18} />
                         </a>
                     </div>
                 </section>
 
-                {/* Experience Section */}
+                {/* Experience */}
                 <section style={{ marginBottom: '6rem' }}>
-                    <h2 className="section-title">{t.experienceTitle}</h2>
+                    <h2 className="section-title">{translations[lang].experienceTitle}</h2>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
                         {experience.map((job, index) => (
-                            <div key={index} style={{ borderLeft: '1px solid var(--minimal-border)', paddingLeft: '1.5rem', marginLeft: '0.5rem' }}>
+                            <div key={index}
+                                className={funMode ? 'exp-card-fun' : ''}
+                                style={{
+                                    borderLeft: funMode ? undefined : '1px solid var(--minimal-border)',
+                                    paddingLeft: '1.5rem',
+                                    marginLeft: '0.5rem'
+                                }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.5rem' }}>
-                                    <h3 style={{ fontSize: '1.2rem', fontWeight: 500, color: 'var(--minimal-text)' }}>{lang === 'en' ? job.roleEn : job.roleIt}</h3>
-                                    <span style={{ fontSize: '0.9rem', color: 'var(--minimal-muted)', fontFamily: 'monospace' }}>{job.period}</span>
+                                    <h3 style={{ fontSize: '1.2rem', fontWeight: 500, color: funMode ? '#f0e6ff' : '#eaeaea' }}>
+                                        {lang === 'en' ? job.roleEn : job.roleIt}
+                                    </h3>
+                                    <span style={{ fontSize: '0.9rem', color: funMode ? '#fbbf24' : '#888888', fontFamily: 'monospace' }}>
+                                        {job.period}
+                                    </span>
                                 </div>
-                                <h4 style={{ fontSize: '1rem', color: 'var(--minimal-muted)', marginBottom: '0.75rem', fontWeight: 400 }}>{job.company}</h4>
-                                <p style={{ color: '#aaaaaa', lineHeight: 1.6 }}>{lang === 'en' ? job.descriptionEn : job.descriptionIt}</p>
+                                <h4 style={{ fontSize: '1rem', color: funMode ? '#a78bfa' : '#888888', marginBottom: '0.75rem', fontWeight: 400 }}>
+                                    {job.company}
+                                </h4>
+                                <p style={{ color: funMode ? '#c4a8e0' : '#aaaaaa', lineHeight: 1.6 }}>
+                                    {lang === 'en' ? job.descriptionEn : job.descriptionIt}
+                                </p>
                             </div>
                         ))}
                     </div>
                 </section>
 
-                {/* Projects Section with Previews */}
+                {/* Projects */}
                 <section style={{ marginBottom: '6rem' }}>
-                    <h2 className="section-title">{t.projectsTitle}</h2>
+                    <h2 className="section-title">{translations[lang].projectsTitle}</h2>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '2rem' }}>
                         {projects.map((project, index) => {
                             const card = (
-                                <div style={{
-                                    background: 'transparent',
-                                    border: '1px solid var(--minimal-border)',
-                                    borderRadius: '12px',
-                                    overflow: 'hidden',
-                                    transition: 'transform 0.2s ease, border-color 0.2s ease',
-                                    cursor: project.link ? 'pointer' : 'default',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    height: '100%'
-                                }}
+                                <div
+                                    className={funMode ? 'project-card-fun' : ''}
+                                    style={{
+                                        background: funMode ? undefined : 'transparent',
+                                        border: funMode ? undefined : '1px solid var(--minimal-border)',
+                                        borderRadius: '12px',
+                                        overflow: 'hidden',
+                                        transition: 'transform 0.2s ease, border-color 0.2s ease',
+                                        cursor: project.link ? 'pointer' : 'default',
+                                        display: 'flex', flexDirection: 'column', height: '100%'
+                                    }}
                                     onMouseEnter={(e) => {
-                                        e.currentTarget.style.transform = 'translateY(-4px)';
-                                        e.currentTarget.style.borderColor = 'var(--minimal-muted)';
+                                        if (!funMode) {
+                                            e.currentTarget.style.transform = 'translateY(-4px)';
+                                            e.currentTarget.style.borderColor = 'var(--minimal-muted)';
+                                        }
                                     }}
                                     onMouseLeave={(e) => {
-                                        e.currentTarget.style.transform = 'translateY(0)';
-                                        e.currentTarget.style.borderColor = 'var(--minimal-border)';
+                                        if (!funMode) {
+                                            e.currentTarget.style.transform = 'translateY(0)';
+                                            e.currentTarget.style.borderColor = 'var(--minimal-border)';
+                                        }
                                     }}
                                 >
-                                    {/* Visual Preview Box */}
                                     <div style={{
                                         height: '140px',
-                                        background: project.previewGradient,
-                                        borderBottom: '1px solid var(--minimal-border)',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center'
+                                        background: funMode ? project.funGradient : project.previewGradient,
+                                        borderBottom: `1px solid ${funMode ? 'rgba(124,58,237,0.3)' : 'var(--minimal-border)'}`,
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        position: 'relative', overflow: 'hidden'
                                     }}>
-                                        <ExternalLink size={32} opacity={project.link ? 0.5 : 0.3} color="var(--minimal-accent)" />
+                                        {funMode && (
+                                            <svg viewBox="0 0 100 100" style={{
+                                                position: 'absolute', width: '80px', opacity: 0.15,
+                                                animation: 'spin-slow 20s linear infinite'
+                                            }} fill="none" stroke="#c084fc" strokeWidth="0.8">
+                                                {[0, 60, 120, 180, 240, 300].map((a, i) => {
+                                                    const r = (a * Math.PI) / 180;
+                                                    return <circle key={i} cx={50 + 15 * Math.cos(r)} cy={50 + 15 * Math.sin(r)} r={15} />;
+                                                })}
+                                                <circle cx="50" cy="50" r="15" />
+                                            </svg>
+                                        )}
+                                        <ExternalLink size={32} opacity={project.link ? 0.5 : 0.3}
+                                            color={funMode ? '#c084fc' : 'var(--minimal-accent)'}
+                                            style={{ position: 'relative', zIndex: 1, filter: funMode ? 'drop-shadow(0 0 6px #c084fc88)' : 'none' }}
+                                        />
                                     </div>
 
                                     <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                                            <h3 style={{ fontSize: '1.2rem', fontWeight: 500, color: 'var(--minimal-text)' }}>{project.title}</h3>
-                                            <span style={{ fontSize: '0.8rem', color: 'var(--minimal-muted)', fontFamily: 'monospace' }}>{project.year}</span>
+                                            <h3 style={{ fontSize: '1.2rem', fontWeight: 500, color: funMode ? '#f0e6ff' : '#eaeaea' }}>
+                                                {project.title}
+                                            </h3>
+                                            <span style={{ fontSize: '0.8rem', color: funMode ? '#fbbf24' : '#888888', fontFamily: 'monospace' }}>
+                                                {project.year}
+                                            </span>
                                         </div>
-                                        <p style={{ color: 'var(--minimal-muted)', fontSize: '0.95rem', marginBottom: '1.5rem', lineHeight: 1.5, flex: 1 }}>
+                                        <p style={{ color: funMode ? '#c4a8e0' : 'var(--minimal-muted)', fontSize: '0.95rem', marginBottom: '1.5rem', lineHeight: 1.5, flex: 1 }}>
                                             {lang === 'en' ? project.descriptionEn : project.descriptionIt}
                                         </p>
                                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                                             {project.tags.map(tag => (
-                                                <span key={tag} style={{
-                                                    fontSize: '0.75rem',
-                                                    color: 'var(--minimal-muted)',
-                                                    background: '#090909',
-                                                    padding: '4px 8px',
-                                                    borderRadius: '4px',
-                                                    border: '1px solid var(--minimal-border)'
-                                                }}>
+                                                <span key={tag}
+                                                    className={funMode ? 'tag-fun' : ''}
+                                                    style={!funMode ? {
+                                                        fontSize: '0.75rem', color: '#888888',
+                                                        background: '#090909', padding: '4px 8px',
+                                                        borderRadius: '4px', border: '1px solid #222222'
+                                                    } : { fontSize: '0.75rem', padding: '4px 8px', borderRadius: '4px', border: '1px solid' }}>
                                                     {tag}
                                                 </span>
                                             ))}
@@ -368,50 +600,87 @@ export default function Portfolio() {
                     </div>
                 </section>
 
-                {/* Blog Section */}
+                {/* Blog */}
                 <section style={{ marginBottom: '6rem' }}>
-                    <h2 className="section-title">{t.blogTitle}</h2>
+                    <h2 className="section-title">{translations[lang].blogTitle}</h2>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                         {blogPosts.map((post, index) => (
-                            <a key={index} href={post.link} style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                padding: '1.5rem',
-                                border: '1px solid var(--minimal-border)',
-                                borderRadius: '8px',
-                                textDecoration: 'none',
-                                color: 'inherit',
-                                transition: 'background 0.2s',
-                                background: 'transparent'
-                            }}
-                                onMouseEnter={e => e.currentTarget.style.background = 'var(--minimal-surface)'}
-                                onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                            <a key={index} href={post.link}
+                                className={funMode ? 'blog-row-fun' : ''}
+                                style={{
+                                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                                    padding: '1.5rem',
+                                    border: funMode ? undefined : '1px solid var(--minimal-border)',
+                                    borderRadius: '8px', textDecoration: 'none', color: 'inherit',
+                                    transition: 'all 0.2s ease',
+                                    background: funMode ? undefined : 'transparent'
+                                }}
+                                onMouseEnter={e => { if (!funMode) (e.currentTarget as HTMLElement).style.background = 'var(--minimal-surface)'; }}
+                                onMouseLeave={e => { if (!funMode) (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                             >
                                 <div>
-                                    <h3 style={{ fontSize: '1.1rem', fontWeight: 500, marginBottom: '0.25rem', color: 'var(--minimal-text)' }}>{lang === 'en' ? post.titleEn : post.titleIt}</h3>
-                                    <span style={{ fontSize: '0.85rem', color: 'var(--minimal-muted)' }}>{post.date} &bull; {lang === 'en' ? post.readTimeEn : post.readTimeIt}</span>
+                                    <h3 style={{ fontSize: '1.1rem', fontWeight: 500, marginBottom: '0.25rem', color: funMode ? '#f0e6ff' : '#eaeaea' }}>
+                                        {lang === 'en' ? post.titleEn : post.titleIt}
+                                    </h3>
+                                    <span style={{ fontSize: '0.85rem', color: funMode ? '#a78bfa' : '#888888' }}>
+                                        {post.date} &bull; {lang === 'en' ? post.readTimeEn : post.readTimeIt}
+                                    </span>
                                 </div>
-                                <BookOpen size={18} color="var(--minimal-muted)" />
+                                <BookOpen size={18} color={funMode ? '#c084fc' : '#888888'}
+                                    style={{ filter: funMode ? 'drop-shadow(0 0 4px #c084fc)' : 'none' }} />
                             </a>
                         ))}
                     </div>
                 </section>
 
-                {/* Contact Section */}
-                <section style={{ marginBottom: '4rem', padding: '4rem 2rem', background: 'var(--minimal-surface)', borderRadius: '16px', border: '1px solid var(--minimal-border)', textAlign: 'center' }}>
-                    <h2 style={{ fontSize: '2rem', fontWeight: 600, color: 'var(--minimal-text)', marginBottom: '1rem', letterSpacing: '-0.02em' }}>{t.contactTitle}</h2>
-                    <p style={{ color: 'var(--minimal-muted)', fontSize: '1.1rem', maxWidth: '500px', margin: '0 auto 2.5rem auto', lineHeight: 1.6 }}>
-                        {t.contactText}
+                {/* Contact */}
+                <section
+                    className={funMode ? 'contact-section-fun' : ''}
+                    style={{
+                        marginBottom: '4rem', padding: '4rem 2rem',
+                        background: funMode ? undefined : 'var(--minimal-surface)',
+                        borderRadius: '16px',
+                        border: funMode ? undefined : '1px solid var(--minimal-border)',
+                        textAlign: 'center'
+                    }}>
+                    <h2 style={{
+                        fontSize: '2rem', fontWeight: 600, marginBottom: '1rem', letterSpacing: '-0.02em',
+                        ...(funMode ? {
+                            background: 'linear-gradient(135deg, #f0e6ff, #c084fc, #fbbf24)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            backgroundClip: 'text',
+                        } : { color: '#eaeaea' })
+                    }}>
+                        {translations[lang].contactTitle}
+                    </h2>
+                    <p style={{ color: funMode ? '#c4a8e0' : '#888888', fontSize: '1.1rem', maxWidth: '500px', margin: '0 auto 2.5rem auto', lineHeight: 1.6 }}>
+                        {translations[lang].contactText}
                     </p>
-                    <a href="mailto:michele.minardi.1992@gmail.com" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: '#fff', color: '#000', padding: '1rem 2.5rem', borderRadius: '30px', fontWeight: 500, fontSize: '1.05rem' }}>
-                        <Mail size={18} /> {t.emailBtn}
+                    <a href="mailto:michele.minardi.1992@gmail.com" style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+                        padding: '1rem 2.5rem', borderRadius: '30px', fontWeight: 500, fontSize: '1.05rem',
+                        textDecoration: 'none', fontFamily: 'inherit',
+                        background: funMode ? 'linear-gradient(135deg, #7c3aed, #c084fc)' : '#fff',
+                        color: funMode ? '#fff' : '#000',
+                        boxShadow: funMode ? '0 0 30px rgba(192, 132, 252, 0.4)' : 'none',
+                        transition: 'all 0.3s ease',
+                    }}>
+                        <Mail size={18} /> {translations[lang].emailBtn}
                     </a>
                 </section>
 
                 {/* Footer */}
-                <footer style={{ marginTop: '8rem', paddingTop: '2rem', borderTop: '1px solid var(--minimal-border)', textAlign: 'center', color: 'var(--minimal-muted)', fontSize: '0.9rem' }}>
-                    <p>&copy; {new Date().getFullYear()} Michele. {t.footer}</p>
+                <footer style={{
+                    marginTop: '8rem', paddingTop: '2rem',
+                    borderTop: `1px solid ${funMode ? 'rgba(124,58,237,0.3)' : 'var(--minimal-border)'}`,
+                    textAlign: 'center',
+                    color: funMode ? '#7c3aed' : '#888888',
+                    fontSize: '0.9rem'
+                }}>
+                    <p>&copy; {new Date().getFullYear()} Michele. {translations[lang].footer}
+                        {funMode && ' ✦'}
+                    </p>
                 </footer>
 
             </div>
