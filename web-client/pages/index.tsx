@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import { Github, Linkedin, Mail, ExternalLink, Globe, BookOpen, Sparkles, TrendingUp } from 'lucide-react';
+import { Github, Linkedin, Mail, ExternalLink, Globe, BookOpen, Sparkles, TrendingUp, Gamepad2, Home, Briefcase, Code, LineChart, MessageSquare, Link as LinkIcon } from 'lucide-react';
 import Layout from '../components/Layout';
 import { ErrorTracker } from '../services/ErrorTracker';
 
@@ -22,6 +22,16 @@ const translations = {
         funOff: "✦ Minimal",
         financeTitle: "Financial Portfolio (Facsimile)",
         financeDisclaimer: "* Not financial advice. This is a facsimile portfolio.",
+        gamesTitle: "Game Time ✨",
+        gamesDesc: "Experimental games built 100% via Agentic AI Coding.",
+        menuHome: "Home",
+        menuExperience: "Experience",
+        menuProjects: "Projects",
+        menuFinance: "Portfolio",
+        menuGames: "Games",
+        menuBlog: "Blog",
+        menuContact: "Contact",
+        menuExternal: "External Links"
     },
     it: {
         title: "Michele | BA Analyst, Tech Savvy and Finance",
@@ -39,6 +49,16 @@ const translations = {
         funOff: "✦ Minimal",
         financeTitle: "Portafoglio Finanziario (Facsimile)",
         financeDisclaimer: "* Non sono consigli finanziari. Questo è un portafoglio facsimile.",
+        gamesTitle: "Area Svago ✨",
+        gamesDesc: "Giochi sperimentali creati al 100% tramite Agentic AI Coding.",
+        menuHome: "Home",
+        menuExperience: "Esperienza",
+        menuProjects: "Progetti",
+        menuFinance: "Portafoglio",
+        menuGames: "Giochi",
+        menuBlog: "Blog",
+        menuContact: "Contatti",
+        menuExternal: "Link Esterni"
     }
 };
 
@@ -81,6 +101,27 @@ const projects = [
         previewGradient: "linear-gradient(135deg, #f59e0b22, #ef444422)",
         funGradient: "linear-gradient(135deg, #fbbf2455, #ef444455)",
         link: null
+    }
+];
+
+const games = [
+    {
+        title: "Worms Bazooka & Space Impact",
+        descEn: "Modern web-based recreations of classic games, built from scratch using HTML5 Canvas, physics, and vanilla JavaScript.",
+        descIt: "Remake web di giochi classici, creati da zero usando HTML5 Canvas, fisica e vanilla JavaScript.",
+        link: "#",
+    },
+    {
+        title: "Retro Snake AI",
+        descEn: "Classic Snake but the apples try to run away from you using pathfinding algorithms.",
+        descIt: "Il classico Snake, ma le mele cercano di scappare usando algoritmi di pathfinding.",
+        link: "#",
+    },
+    {
+        title: "Cyber-Pong 2077",
+        descEn: "Neon-lit, high-speed pong with power-ups and particle explosions. Pure chaotic fun.",
+        descIt: "Pong ad alta velocità e luci al neon, con potenziamenti ed esplosioni di particelle. Puro caos.",
+        link: "#",
     }
 ];
 
@@ -412,6 +453,65 @@ export default function Portfolio() {
                     backdrop-filter: blur(15px);
                     animation: pulse-glow 4s ease infinite;
                 }
+
+                /* Sidebar Styles */
+                .sidebar-hit-area {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 25px;
+                    height: 100vh;
+                    z-index: 999;
+                }
+                .sidebar-wrapper {
+                    position: fixed;
+                    top: 0;
+                    left: -280px;
+                    width: 280px;
+                    height: 100vh;
+                    background: var(--minimal-surface);
+                    border-right: 1px solid var(--minimal-border);
+                    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    padding: 2.5rem 2rem;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1.5rem;
+                    z-index: 1000;
+                    backdrop-filter: blur(12px);
+                    box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+                }
+                .sidebar-hit-area:hover + .sidebar-wrapper,
+                .sidebar-wrapper:hover {
+                    left: 0;
+                }
+                .sidebar-link {
+                    color: var(--minimal-text);
+                    text-decoration: none;
+                    font-size: 1rem;
+                    font-weight: 400;
+                    transition: all 0.2s ease;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.75rem;
+                    opacity: 0.8;
+                }
+                .sidebar-link:hover {
+                    color: var(--minimal-accent);
+                    opacity: 1;
+                    transform: translateX(4px);
+                }
+                .sidebar-fun {
+                    background: rgba(13, 5, 32, 0.9) !important;
+                    border-right: 1px solid rgba(192, 132, 252, 0.3) !important;
+                    box-shadow: 4px 0 30px rgba(124, 58, 237, 0.15) !important;
+                }
+                .sidebar-link-fun {
+                    color: #c4a8e0 !important;
+                }
+                .sidebar-link-fun:hover {
+                    color: #fbbf24 !important;
+                    text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+                }
             `}</style>
 
             {/* Sacred geometry background - only in fun mode */}
@@ -427,10 +527,34 @@ export default function Portfolio() {
                 </button>
             </div>
 
+            {/* Sidebar */}
+            <div className="sidebar-hit-area" />
+            <div className={`sidebar-wrapper ${funMode ? 'sidebar-fun' : ''}`}>
+                <div style={{ fontSize: '1.4rem', fontWeight: 600, marginBottom: '2rem', letterSpacing: '-0.02em', color: funMode ? '#fbbf24' : 'var(--minimal-text)' }}>
+                    Michele.
+                </div>
+
+                <nav style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', flex: 1 }}>
+                    <a href="#hero" className={`sidebar-link ${funMode ? 'sidebar-link-fun' : ''}`}><Home size={18} /> {t.menuHome}</a>
+                    <a href="#experience" className={`sidebar-link ${funMode ? 'sidebar-link-fun' : ''}`}><Briefcase size={18} /> {t.menuExperience}</a>
+                    <a href="#projects" className={`sidebar-link ${funMode ? 'sidebar-link-fun' : ''}`}><Code size={18} /> {t.menuProjects}</a>
+                    <a href="#finance" className={`sidebar-link ${funMode ? 'sidebar-link-fun' : ''}`}><LineChart size={18} /> {t.menuFinance}</a>
+                    <a href="#games" className={`sidebar-link ${funMode ? 'sidebar-link-fun' : ''}`}><Gamepad2 size={18} /> {t.menuGames}</a>
+                    <a href="#blog" className={`sidebar-link ${funMode ? 'sidebar-link-fun' : ''}`}><BookOpen size={18} /> {t.menuBlog}</a>
+                    <a href="#contact" className={`sidebar-link ${funMode ? 'sidebar-link-fun' : ''}`}><MessageSquare size={18} /> {t.menuContact}</a>
+                </nav>
+
+                <div style={{ borderTop: `1px solid ${funMode ? 'rgba(192, 132, 252, 0.2)' : 'var(--minimal-border)'}`, paddingTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    <span style={{ fontSize: '0.75rem', color: funMode ? 'rgba(196,168,224,0.6)' : 'var(--minimal-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{t.menuExternal}</span>
+                    <a href="https://www.instagram.com/openprometeo_" target="_blank" rel="noopener noreferrer" className={`sidebar-link ${funMode ? 'sidebar-link-fun' : ''}`}><LinkIcon size={16} /> Open Prometeo</a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" className={`sidebar-link ${funMode ? 'sidebar-link-fun' : ''}`}><LinkIcon size={16} /> Ailingo</a>
+                </div>
+            </div>
+
             <div className="minimal-container animate-fade">
 
                 {/* Hero */}
-                <section style={{ marginBottom: '6rem' }}>
+                <section id="hero" style={{ marginBottom: '6rem' }}>
                     <div className="flower-wrapper">
                         <FlowerOfLife funMode={funMode} />
                     </div>
@@ -496,7 +620,7 @@ export default function Portfolio() {
                 </section>
 
                 {/* Experience */}
-                <section style={{ marginBottom: '6rem' }}>
+                <section id="experience" style={{ marginBottom: '6rem' }}>
                     <h2 className="section-title">{translations[lang].experienceTitle}</h2>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
                         {experience.map((job, index) => (
@@ -527,7 +651,7 @@ export default function Portfolio() {
                 </section>
 
                 {/* Projects */}
-                <section style={{ marginBottom: '6rem' }}>
+                <section id="projects" style={{ marginBottom: '6rem' }}>
                     <h2 className="section-title">{translations[lang].projectsTitle}</h2>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '2rem' }}>
                         {projects.map((project, index) => {
@@ -617,7 +741,7 @@ export default function Portfolio() {
                 </section>
 
                 {/* Financial Portfolio */}
-                <section style={{ marginBottom: '6rem' }}>
+                <section id="finance" style={{ marginBottom: '6rem' }}>
                     <h2 className="section-title">{translations[lang].financeTitle}</h2>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '1.5rem' }}>
                         {financialAssets.map((asset, index) => (
@@ -673,8 +797,48 @@ export default function Portfolio() {
                     </p>
                 </section>
 
+                {/* Game Time */}
+                <section id="games" style={{ marginBottom: '6rem' }}>
+                    <h2 className="section-title">{translations[lang].gamesTitle}</h2>
+                    <p style={{ color: funMode ? '#c4a8e0' : 'var(--minimal-muted)', marginBottom: '2rem', fontStyle: 'italic', opacity: 0.9 }}>
+                        {translations[lang].gamesDesc}
+                    </p>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '1.5rem' }}>
+                        {games.map((game, index) => (
+                            <a key={index} href={game.link} style={{ textDecoration: 'none', display: 'block' }}>
+                                <div className={funMode ? 'project-card-fun' : ''} style={{
+                                    padding: '1.5rem',
+                                    border: funMode ? '1px solid rgba(124, 58, 237, 0.4)' : '1px solid var(--minimal-border)',
+                                    borderRadius: '12px',
+                                    background: funMode ? 'rgba(124, 58, 237, 0.05)' : 'transparent',
+                                    transition: 'all 0.3s ease',
+                                    display: 'flex', flexDirection: 'column', height: '100%',
+                                    cursor: 'pointer'
+                                }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(-4px)';
+                                        if (funMode) e.currentTarget.style.boxShadow = '0 0 20px rgba(124, 58, 237, 0.2)';
+                                        else e.currentTarget.style.borderColor = 'var(--minimal-muted)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(0)';
+                                        if (funMode) e.currentTarget.style.boxShadow = 'none';
+                                        else e.currentTarget.style.borderColor = 'var(--minimal-border)';
+                                    }}>
+                                    <h3 style={{ fontSize: '1.15rem', fontWeight: 600, color: funMode ? '#fbbf24' : 'var(--minimal-text)', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                                        <Gamepad2 size={18} /> {game.title}
+                                    </h3>
+                                    <p style={{ fontSize: '0.9rem', color: funMode ? '#f0e6ff' : 'var(--minimal-muted)', lineHeight: 1.5 }}>
+                                        {lang === 'en' ? game.descEn : game.descIt}
+                                    </p>
+                                </div>
+                            </a>
+                        ))}
+                    </div>
+                </section>
+
                 {/* Blog */}
-                <section style={{ marginBottom: '6rem' }}>
+                <section id="blog" style={{ marginBottom: '6rem' }}>
                     <h2 className="section-title">{translations[lang].blogTitle}</h2>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                         {blogPosts.map((post, index) => (
@@ -707,7 +871,7 @@ export default function Portfolio() {
                 </section>
 
                 {/* Contact */}
-                <section
+                <section id="contact"
                     className={funMode ? 'contact-section-fun' : ''}
                     style={{
                         marginBottom: '4rem', padding: '4rem 2rem',
