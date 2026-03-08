@@ -5,306 +5,90 @@ import { Globe, ArrowLeft } from 'lucide-react';
 
 const content = {
     en: {
-        title: "Goodhart's Law Is the Problem of the Century",
-        subtitle: "When a measure becomes a target, it ceases to be a good measure.",
+        title: "All Measures Are Hackable",
+        subtitle: "On Goodhart's Law, Soviet nails, and why the problem got much worse.",
         date: "March 8, 2026",
-        readTime: "8 min read",
+        readTime: "7 min read",
         backLabel: "Back",
-        body: [
-            {
-                type: 'quote',
-                text: '"When a measure becomes a target, it ceases to be a good measure." — Charles Goodhart, 1975'
-            },
-            {
-                type: 'h2',
-                text: 'The Soviet Nails'
-            },
-            {
-                type: 'p',
-                text: "In the 1950s, Soviet factories were evaluated on the number of nails produced. The result: millions of tiny, unusable nails. The plan was met. Houses didn't get built."
-            },
-            {
-                type: 'p',
-                text: "The government corrected: now the quota was by weight. Factories started producing enormous nails, useless for any practical purpose. Perfect for the metric. Perfect for nothing."
-            },
-            {
-                type: 'p',
-                text: "This is Goodhart's Law in action: every measure that becomes a target stops measuring what you wanted to measure. It's not a bug of the Soviet system. It's a fundamental law of any system where incentives exist."
-            },
-            {
-                type: 'h2',
-                text: 'The Problem Wasn\'t the Measure. It Was the Cost of Hacking It.'
-            },
-            {
-                type: 'p',
-                text: "For decades, Goodhart's Law was a manageable problem. Faking a metric cost something. It required time, organization, human resources. Companies could inflate numbers, politicians could distort statistics, but there was always a friction cost that limited the scale of the problem."
-            },
-            {
-                type: 'p',
-                text: "Today that cost has collapsed."
-            },
-            {
-                type: 'h2',
-                text: 'When Production Cost Approaches Zero'
-            },
-            {
-                type: 'p',
-                text: "We live in a society where the production of content — text, images, code, voices, video — has a marginal cost approaching zero. And every measurement system that wasn't designed for this is silently collapsing."
-            },
-            {
-                type: 'list',
-                items: [
-                    "**5-star reviews** were meant to measure product quality. Today there are review farms, automated tools, and soon a single prompt will generate thousands of them. The star no longer measures anything.",
-                    "**Follower counts** were meant to measure influence. Today you can buy them for €10 per thousand, with accounts that look real, that comment, that interact. Social \"score\" is completely decoupled from reality.",
-                    "**Academic citations** were meant to measure the value of research. Today there are paper farms, artificial cross-citations, and entire predatory journals gaming the system.",
-                    "**SEO ranking** was meant to measure a site's relevance. Today content farms generate millions of SEO-optimized articles per day. Google can't keep up.",
-                    "**Business KPIs** — DAU, retention, engagement — are optimized with dark patterns, aggressive notifications, manipulative gamification. Apps are more \"used\", people are less satisfied."
-                ]
-            },
-            {
-                type: 'h2',
-                text: 'The Paradox: The More You Measure, the Less You Know'
-            },
-            {
-                type: 'p',
-                text: "There's something deeply ironic about all this. We live in the age of data, the one where \"we can finally measure everything\". We have dashboards everywhere, OKRs, NPS, vanity metrics and performance metrics."
-            },
-            {
-                type: 'p',
-                text: "Yet the more precise and accessible our metrics become, the easier they are to hack. Once you know exactly how you're being measured, you know exactly how to optimize for that measure — not for what that measure is supposed to represent."
-            },
-            {
-                type: 'p',
-                text: "The problem isn't a lack of data. It's that data has become a language, and like any language, it can lie."
-            },
-            {
-                type: 'h2',
-                text: 'What Remains Immune?'
-            },
-            {
-                type: 'p',
-                text: "The real question is: does anything exist that can't be easily faked at scale?"
-            },
-            {
-                type: 'p',
-                text: "Probably yes. Things that are hard to manufacture in series. Reputation built over time through real interactions. The trust of people who truly know you. The judgment of someone with enough context to evaluate something that doesn't fit in a spreadsheet row."
-            },
-            {
-                type: 'p',
-                text: "Paradoxically, in the era of total automation, value shifts toward what is intrinsically expensive to replicate: the authentic relationship, the deep context, the informed human judgment."
-            },
-            {
-                type: 'h2',
-                text: 'The Future of Metrics'
-            },
-            {
-                type: 'p',
-                text: "We won't stop measuring. But perhaps we should stop blindly trusting the numbers we produce."
-            },
-            {
-                type: 'p',
-                text: "Goodhart's Law isn't a critique of measurement. It's an invitation to always ask: is this number telling me something true, or is it just telling me that someone found a way to make it look true?"
-            },
-            {
-                type: 'p',
-                text: "In a world where producing content, social proof, and quality signals costs almost nothing — the ability to distinguish signal from noise becomes the rarest and most valuable skill."
-            },
-            {
-                type: 'closing',
-                text: "Moscow's nails were at least tangible."
-            }
+        paragraphs: [
+            `Consider a Soviet factory. The government needed nails — lots of them. So they set a quota: factories would be evaluated on the number of nails produced per month. The factory managers, being rational people, produced exactly what was measured. Millions of tiny nails. Useless, minuscule, but countable. The plan was fulfilled. Houses didn't get built.`,
+
+            `The government noticed and adjusted. Now the quota was by weight. The factories responded accordingly: enormous, unusable nails. Still useless. Still perfectly measured.`,
+
+            `This is Goodhart's Law. In 1975, economist Charles Goodhart observed that "when a measure becomes a target, it ceases to be a good measure." The nail factories didn't fail because the managers were evil. They failed because the incentive was to optimize the metric, not the underlying goal. Once you separate the two, the metric always wins.`,
+
+            `All measures can be broken down into one of two categories.`,
+
+            `The first are what I'd call transparent measures. These are hard to game because the underlying reality and the measure are nearly the same thing. In a small town, the local baker's reputation is a transparent measure: you know her, you've eaten her bread, you have firsthand evidence. There's almost no gap between the signal and the truth.`,
+
+            `The second are opaque measures. These are abstractions — proxies designed to approximate something real that can't be directly observed. Star ratings, follower counts, academic citations, credit scores, GDP. Every opaque measure has a gap between the signal and the truth. That gap is where Goodhart's Law lives.`,
+
+            `For most of history, opaque measures were still reasonably reliable. Not because they were immune to gaming, but because gaming them was expensive. Buying fake reviews required fake customers. Inflating academic citations required coordination among researchers. Distorting GDP statistics required a functioning propaganda machine. The friction was high enough that most actors didn't bother.`,
+
+            `That friction is now approaching zero.`,
+
+            `We live in a world where producing content — text, images, voices, video, interaction signals — has a marginal cost that is collapsing. A single API call can generate a thousand product reviews. Another can produce a synthetic social media presence that posts, comments, and likes with human-like consistency. Another can flood a research domain with plausible-sounding papers. The cost of manufacturing the appearance of quality has fallen roughly as fast as computing costs have fallen, which is to say, exponentially.`,
+
+            `This is a different kind of problem than the Soviet nails. The Soviets had a Goodhart's Law problem contained within a closed system. A bureaucrat set a bad metric; factories gamed it; the bureaucrat could, in theory, observe the absurdity and correct it.`,
+
+            `Our version of the problem is decentralized, continuous, and self-reinforcing. No single actor set the bad metrics. Five-star ratings emerged organically. Follower counts emerged organically. Citation counts emerged organically. They became proxies for quality because, at the time they were created, they correlated well with quality. The correlation has since been manufactured away.`,
+
+            `Consider what this does to decision-making. Every hiring algorithm that uses LinkedIn endorsements as a signal. Every publishing algorithm that uses engagement as a proxy for relevance. Every lending algorithm that uses FICO scores as a proxy for creditworthiness. Every investment thesis that uses revenue growth as a proxy for business health. Each of these is running on signal that is increasingly detached from ground truth.`,
+
+            `There's a compounding effect. When a measure becomes unreliable, people respond by adding more measures. More KPIs. More data points. More dashboards. But each new measure, the moment it becomes widely known and weighted, becomes a new target. The system doesn't get more legible. It gets less.`,
+
+            `Some things remain relatively immune. Measures that require the actual thing, not just a representation of it. You can fake a reference letter, but you can't fake the judgment of someone who has worked alongside you for years. You can game a design award with strategic submissions, but you can't easily manufacture the kind of reputation that comes from a decade of good work in a tight-knit community. The most durable measures tend to be expensive in time and relationship, not in money.`,
+
+            `The deeper problem is institutional. Our institutions — financial, academic, corporate, civic — were built assuming that their measures could be trusted. They can't, or at least, they can be trusted less with every passing year as production costs fall. The nail factories at least made nails that were physically real. The content farms don't even need to produce physical nails.`,
+
+            `Nobody set out to build a world of fake reviews and manufactured engagement. It emerged naturally from the collision of good measures, powerful incentives, and falling production costs. Understanding that it's a structural problem, not a moral one, is the first step. The structural solution — whatever it is — will require embedding truth in places where producing a convincing fake is genuinely expensive. That's a harder engineering problem than it sounds.`,
+
+            `Moscow's nails were at least heavy.`,
         ]
     },
     it: {
-        title: "La Legge di Goodhart è diventata il problema del secolo",
-        subtitle: "Quando una misura diventa un obiettivo, smette di essere una buona misura.",
+        title: "Tutte le misure sono hackerabili",
+        subtitle: "Sulla Legge di Goodhart, i chiodi sovietici, e perché il problema è diventato molto peggiore.",
         date: "8 Marzo 2026",
-        readTime: "8 min di lettura",
+        readTime: "7 min di lettura",
         backLabel: "Indietro",
-        body: [
-            {
-                type: 'quote',
-                text: '"When a measure becomes a target, it ceases to be a good measure." — Charles Goodhart, 1975'
-            },
-            {
-                type: 'h2',
-                text: 'I chiodi sovietici'
-            },
-            {
-                type: 'p',
-                text: "Negli anni '50, le fabbriche sovietiche venivano valutate sul numero di chiodi prodotti. Risultato: chiodini inutilizzabili, minuscoli, a milioni. Il piano veniva rispettato. Le case non si costruivano."
-            },
-            {
-                type: 'p',
-                text: "Il governo corresse: ora la quota era in peso. Le fabbriche iniziarono a produrre chiodi enormi, inutili per qualsiasi uso pratico. Perfetti per la metrica. Perfetti per niente."
-            },
-            {
-                type: 'p',
-                text: "Questa è la Legge di Goodhart in azione: ogni misura che diventa un obiettivo smette di misurare ciò che volevi misurare. Non è un bug del sistema sovietico. È una legge fondamentale di qualsiasi sistema dove esistono incentivi."
-            },
-            {
-                type: 'h2',
-                text: 'Il problema non era la misura. Era il costo di hackerarla.'
-            },
-            {
-                type: 'p',
-                text: "Per decenni, la Legge di Goodhart era un problema gestibile. Falsificare una metrica costava. Richiedeva tempo, organizzazione, risorse umane. Le aziende potevano gonfiare numeri, i politici potevano distorcere statistiche, ma c'era sempre un costo di attrito che limitava la scala del problema."
-            },
-            {
-                type: 'p',
-                text: "Oggi quel costo è crollato."
-            },
-            {
-                type: 'h2',
-                text: 'Quando il costo di produzione tende a zero'
-            },
-            {
-                type: 'p',
-                text: "Viviamo in una società in cui la produzione di contenuto — testo, immagini, codice, voci, video — ha un costo marginale che si avvicina allo zero. E ogni sistema di misurazione che non era progettato per questo sta collassando silenziosamente."
-            },
-            {
-                type: 'list',
-                items: [
-                    "**Le recensioni a 5 stelle** dovevano misurare la qualità di un prodotto. Oggi esistono farm di recensioni, tool automatizzati, e presto basterà un prompt per generarne migliaia. La stella non misura più niente.",
-                    "**Il numero di follower** doveva misurare l'influenza. Oggi si comprano a 10€ per mille, con account che sembrano reali, che commentano, che interagiscono. Lo \"score\" sociale è completamente disaccoppiato dalla realtà.",
-                    "**Le citazioni accademiche** dovevano misurare il valore di una ricerca. Oggi esistono paper farm, citazioni incrociate artificiali, e interi journal predatori che giocano il sistema.",
-                    "**Il ranking SEO** doveva misurare la rilevanza di un sito. Oggi content farm generano milioni di articoli SEO-ottimizzati al giorno. Google non riesce a stare al passo.",
-                    "**I KPI aziendali** — DAU, retention, engagement — vengono ottimizzati con dark pattern, notifiche aggressive, gamification manipolativa. Le app sono più \"usate\", le persone sono meno soddisfatte."
-                ]
-            },
-            {
-                type: 'h2',
-                text: 'Il paradosso: più misuri, meno sai'
-            },
-            {
-                type: 'p',
-                text: "C'è qualcosa di profondamente ironico in tutto questo. Viviamo nell'era dei dati, quella in cui \"siamo finalmente in grado di misurare tutto\". Abbiamo dashboard ovunque, OKR, NPS, metriche di vanità e metriche di performance."
-            },
-            {
-                type: 'p',
-                text: "Eppure più le nostre metriche sono precise e accessibili, più diventano facili da hackerare. Una volta che sai esattamente come vieni misurato, sai esattamente come ottimizzare per quella misura — non per ciò che quella misura dovrebbe rappresentare."
-            },
-            {
-                type: 'p',
-                text: "Il problema non è la mancanza di dati. È che i dati sono diventati un linguaggio, e come ogni linguaggio, possono mentire."
-            },
-            {
-                type: 'h2',
-                text: 'Cosa rimane immune?'
-            },
-            {
-                type: 'p',
-                text: "La domanda vera è: esiste qualcosa che non si può falsificare facilmente in serie?"
-            },
-            {
-                type: 'p',
-                text: "Probabilmente sì. Le cose difficili da fabbricare in serie. La reputazione costruita nel tempo su interazioni reali. La fiducia di chi ti conosce davvero. Il giudizio di qualcuno che ha abbastanza contesto per valutare qualcosa che non si misura in una riga di Excel."
-            },
-            {
-                type: 'p',
-                text: "Paradossalmente, nell'era dell'automazione totale, il valore si sposta verso ciò che è intrinsecamente costoso da replicare: la relazione autentica, il contesto profondo, il giudizio umano informato."
-            },
-            {
-                type: 'h2',
-                text: 'Il futuro delle metriche'
-            },
-            {
-                type: 'p',
-                text: "Non smetteremo di misurare. Ma forse dovremmo smettere di credere ciecamente ai numeri che produciamo."
-            },
-            {
-                type: 'p',
-                text: "La Legge di Goodhart non è una critica alla misurazione. È un invito a chiedersi sempre: questo numero mi dice qualcosa di vero, o mi sta solo dicendo che qualcuno ha trovato il modo di farlo sembrare vero?"
-            },
-            {
-                type: 'p',
-                text: "In un mondo dove produrre contenuto, social proof, e segnali di qualità costa quasi niente — la capacità di distinguere il segnale dal rumore diventa la competenza più rara e più preziosa."
-            },
-            {
-                type: 'closing',
-                text: "I chiodi di Mosca erano almeno tangibili."
-            }
+        paragraphs: [
+            `Considerate una fabbrica sovietica. Il governo aveva bisogno di chiodi — tanti. Così stabilì una quota: le fabbriche sarebbero state valutate in base al numero di chiodi prodotti al mese. I manager, da persone razionali, produssero esattamente ciò che veniva misurato. Milioni di chiodini. Inutili, minuscoli, ma numerabili. Il piano fu rispettato. Le case non si costruirono.`,
+
+            `Il governo se ne accorse e corresse. La quota ora era in peso. Le fabbriche risposero di conseguenza: chiodi enormi, inutilizzabili. Ancora inutili. Ancora perfettamente misurati.`,
+
+            `Questa è la Legge di Goodhart. Nel 1975, l'economista Charles Goodhart osservò che "quando una misura diventa un obiettivo, cessa di essere una buona misura." Le fabbriche di chiodi non fallirono perché i manager erano in malafede. Fallirono perché l'incentivo era ottimizzare la metrica, non l'obiettivo sottostante. Una volta separati i due, la metrica vince sempre.`,
+
+            `Tutte le misure possono essere classificate in due categorie.`,
+
+            `Le prime sono le misure trasparenti. Difficili da alterare perché la realtà sottostante e la misura sono quasi la stessa cosa. In un piccolo paese, la reputazione della fornaia locale è una misura trasparente: la conosci, hai mangiato il suo pane, hai prove dirette. C'è quasi nessun divario tra il segnale e la verità.`,
+
+            `Le seconde sono le misure opache. Sono astrazioni — proxy progettati per approssimare qualcosa di reale che non si può osservare direttamente. Valutazioni in stelle, numero di follower, citazioni accademiche, credit score, PIL. Ogni misura opaca ha un divario tra il segnale e la verità. Ed è in quel divario che vive la Legge di Goodhart.`,
+
+            `Per la maggior parte della storia, le misure opache erano comunque ragionevolmente affidabili. Non perché fossero immuni alla manipolazione, ma perché manipolarle era costoso. Comprare recensioni false richiedeva clienti falsi. Gonfiare le citazioni accademiche richiedeva coordinazione tra ricercatori. Distorcere le statistiche del PIL richiedeva una macchina propagandistica funzionante. L'attrito era abbastanza alto da scoraggiare la maggior parte degli attori.`,
+
+            `Quell'attrito si sta avvicinando allo zero.`,
+
+            `Viviamo in un mondo in cui produrre contenuto — testo, immagini, voci, video, segnali di interazione — ha un costo marginale in collasso. Una singola chiamata API può generare mille recensioni di prodotto. Un'altra può creare una presenza social sintetica che pubblica, commenta e mette like con coerenza umana. Un'altra ancora può inondare un dominio di ricerca con articoli dall'aspetto plausibile. Il costo di fabbricare l'apparenza della qualità è sceso più o meno alla stessa velocità con cui sono scesi i costi computazionali: in modo esponenziale.`,
+
+            `Questo è un problema di tipo diverso rispetto ai chiodi sovietici. I sovietici avevano un problema di Legge di Goodhart contenuto in un sistema chiuso. Un burocrate stabilisce una metrica sbagliata; le fabbriche la ottimizzano; il burocrate può, in teoria, osservare l'assurdità e correggere.`,
+
+            `La nostra versione del problema è decentralizzata, continua e autorinforzante. Nessun singolo attore ha impostato le metriche sbagliate. Le valutazioni a cinque stelle sono emerse organicamente. I conteggi dei follower sono emersi organicamente. I conteggi delle citazioni sono emersi organicamente. Sono diventati proxy per la qualità perché, quando furono creati, correlavano bene con la qualità. Quella correlazione è stata nel frattempo manufatturata via.`,
+
+            `Considerate cosa questo fa al decision-making. Ogni algoritmo di assunzione che usa i endorsement di LinkedIn come segnale. Ogni algoritmo editoriale che usa l'engagement come proxy della rilevanza. Ogni algoritmo di credito che usa lo score FICO come proxy dell'affidabilità. Ogni tesi di investimento che usa la crescita dei ricavi come proxy della salute aziendale. Tutti stanno girando su segnali sempre più distaccati dalla realtà.`,
+
+            `C'è un effetto cumulativo. Quando una misura diventa inaffidabile, la risposta è aggiungere altre misure. Più KPI. Più dati. Più dashboard. Ma ogni nuova misura, nel momento in cui viene resa nota e pesata, diventa un nuovo obiettivo. Il sistema non diventa più leggibile. Diventa meno.`,
+
+            `Alcune cose rimangono relativamente immuni. Misure che richiedono la cosa vera, non solo una sua rappresentazione. Si può falsificare una lettera di referenza, ma non si può falsificare il giudizio di qualcuno che ha lavorato a fianco a te per anni. Si può manipolare un premio di design con submission strategiche, ma è difficile manufatturare il tipo di reputazione che viene da un decennio di buon lavoro in una comunità ristretta. Le misure più durevoli tendono a essere costose in tempo e relazione, non in denaro.`,
+
+            `Il problema più profondo è istituzionale. Le nostre istituzioni — finanziarie, accademiche, aziendali, civiche — sono state costruite assumendo che le loro misure potessero essere considerate affidabili. Non possono, o almeno, possono esserlo sempre meno con ogni anno che passa mentre i costi di produzione calano. Le fabbriche di chiodi almeno producevano chiodi fisicamente reali. Le content farm non hanno nemmeno bisogno di produrre chiodi fisici.`,
+
+            `Nessuno ha pianificato di costruire un mondo di recensioni false ed engagement manufatturato. È emerso naturalmente dalla collisione di buone misure, incentivi potenti e costi di produzione in calo. Capire che è un problema strutturale, non morale, è il primo passo. La soluzione strutturale — qualunque essa sia — richiederà di incorporare la verità in luoghi dove produrre un falso convincente è genuinamente costoso. È un problema di ingegneria più difficile di quanto sembri.`,
+
+            `I chiodi di Mosca erano almeno pesanti.`,
         ]
     }
 };
-
-function renderBody(body: typeof content.en.body) {
-    return body.map((block, i) => {
-        switch (block.type) {
-            case 'quote':
-                return (
-                    <blockquote key={i} style={{
-                        borderLeft: '2px solid #555',
-                        paddingLeft: '1.5rem',
-                        margin: '2rem 0',
-                        color: '#888',
-                        fontStyle: 'italic',
-                        fontSize: '1.05rem',
-                        lineHeight: 1.7
-                    }}>
-                        {block.text}
-                    </blockquote>
-                );
-            case 'h2':
-                return (
-                    <h2 key={i} style={{
-                        fontSize: '1.4rem',
-                        fontWeight: 600,
-                        color: '#eaeaea',
-                        marginTop: '3rem',
-                        marginBottom: '1rem',
-                        letterSpacing: '-0.02em'
-                    }}>
-                        {block.text}
-                    </h2>
-                );
-            case 'p':
-                return (
-                    <p key={i} style={{
-                        color: '#aaaaaa',
-                        lineHeight: 1.8,
-                        marginBottom: '1.2rem',
-                        fontSize: '1.05rem'
-                    }}>
-                        {block.text}
-                    </p>
-                );
-            case 'list':
-                return (
-                    <ul key={i} style={{ paddingLeft: '1.5rem', marginBottom: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                        {(block.items || []).map((item, j) => {
-                            // bold the **text** inside
-                            const parts = item.split(/\*\*(.*?)\*\*/g);
-                            return (
-                                <li key={j} style={{ color: '#aaaaaa', lineHeight: 1.7, fontSize: '1.02rem' }}>
-                                    {parts.map((p, k) => k % 2 === 1
-                                        ? <strong key={k} style={{ color: '#eaeaea' }}>{p}</strong>
-                                        : p
-                                    )}
-                                </li>
-                            );
-                        })}
-                    </ul>
-                );
-            case 'closing':
-                return (
-                    <p key={i} style={{
-                        color: '#666',
-                        lineHeight: 1.8,
-                        marginTop: '3rem',
-                        paddingTop: '2rem',
-                        borderTop: '1px solid #222',
-                        fontStyle: 'italic',
-                        fontSize: '1rem'
-                    }}>
-                        {block.text}
-                    </p>
-                );
-            default:
-                return null;
-        }
-    });
-}
 
 export default function GoodhartsLaw() {
     const [lang, setLang] = useState<'en' | 'it'>('en');
@@ -322,13 +106,13 @@ export default function GoodhartsLaw() {
                 body {
                     background-color: #0a0a0a !important;
                     color: #eaeaea !important;
-                    font-family: 'Inter', 'Outfit', sans-serif;
+                    font-family: 'Georgia', 'Times New Roman', serif;
                 }
                 .lang-toggle {
                     position: fixed;
                     top: 1.5rem;
                     right: 1.5rem;
-                    background: #121212;
+                    background: #111;
                     border: 1px solid #222;
                     border-radius: 20px;
                     padding: 0.4rem 1rem;
@@ -339,62 +123,106 @@ export default function GoodhartsLaw() {
                     color: #eaeaea;
                     z-index: 100;
                     font-size: 0.85rem;
+                    font-family: 'Inter', sans-serif;
                     transition: border-color 0.2s;
                 }
-                .lang-toggle:hover { border-color: #888; }
+                .lang-toggle:hover { border-color: #555; }
                 .back-link {
                     display: inline-flex;
                     align-items: center;
                     gap: 0.5rem;
-                    color: #888;
+                    color: #555;
                     text-decoration: none;
                     font-size: 0.9rem;
-                    margin-bottom: 3rem;
+                    font-family: 'Inter', sans-serif;
+                    margin-bottom: 3.5rem;
                     transition: color 0.2s;
                 }
                 .back-link:hover { color: #eaeaea; }
+                .article-body p {
+                    color: #c0c0c0;
+                    line-height: 1.85;
+                    margin-bottom: 1.5rem;
+                    font-size: 1.08rem;
+                }
+                .article-body p:first-child::first-letter {
+                    font-size: 3.2rem;
+                    font-weight: 700;
+                    float: left;
+                    line-height: 0.85;
+                    margin-right: 0.12em;
+                    color: #eaeaea;
+                }
+                .article-body p.standalone {
+                    color: #888;
+                    font-style: italic;
+                    border-left: 2px solid #2a2a2a;
+                    padding-left: 1.2rem;
+                    margin: 2rem 0;
+                }
             `}</style>
 
             <button className="lang-toggle" onClick={() => setLang(l => l === 'en' ? 'it' : 'en')}>
                 <Globe size={14} /> {lang === 'en' ? 'IT' : 'EN'}
             </button>
 
-            <div style={{ maxWidth: '720px', margin: '0 auto', padding: '5rem 2rem' }}>
+            <div style={{ maxWidth: '680px', margin: '0 auto', padding: '5rem 2rem' }}>
 
                 <Link href="/" className="back-link">
-                    <ArrowLeft size={16} /> {t.backLabel}
+                    <ArrowLeft size={15} /> {t.backLabel}
                 </Link>
 
-                {/* Article Header */}
-                <header style={{ marginBottom: '3rem' }}>
-                    <p style={{ fontSize: '0.85rem', color: '#555', fontFamily: 'monospace', marginBottom: '1.5rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                {/* Header */}
+                <header style={{ marginBottom: '3.5rem' }}>
+                    <p style={{
+                        fontSize: '0.8rem',
+                        color: '#444',
+                        fontFamily: 'monospace',
+                        marginBottom: '1.2rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.1em'
+                    }}>
                         {t.date} &bull; {t.readTime}
                     </p>
                     <h1 style={{
-                        fontSize: 'clamp(1.8rem, 5vw, 2.6rem)',
+                        fontSize: 'clamp(1.8rem, 5vw, 2.4rem)',
                         fontWeight: 700,
-                        letterSpacing: '-0.04em',
-                        lineHeight: 1.15,
+                        letterSpacing: '-0.03em',
+                        lineHeight: 1.2,
                         color: '#eaeaea',
-                        marginBottom: '1.2rem'
+                        fontFamily: "'Inter', sans-serif",
+                        marginBottom: '1rem'
                     }}>
                         {t.title}
                     </h1>
-                    <p style={{ fontSize: '1.15rem', color: '#666', fontStyle: 'italic', lineHeight: 1.6 }}>
+                    <p style={{
+                        fontSize: '1.1rem',
+                        color: '#555',
+                        lineHeight: 1.6,
+                        fontFamily: "'Inter', sans-serif"
+                    }}>
                         {t.subtitle}
                     </p>
-                    <div style={{ height: '1px', background: '#1e1e1e', marginTop: '2.5rem' }} />
+                    <div style={{ height: '1px', background: '#1a1a1a', marginTop: '2.5rem' }} />
                 </header>
 
-                {/* Article Body */}
-                <article>
-                    {renderBody(t.body)}
+                {/* Article body */}
+                <article className="article-body">
+                    {t.paragraphs.map((para, i) => {
+                        // short standalone paragraphs (< 80 chars) get italic treatment
+                        const isStandalone = para.length < 80;
+                        return (
+                            <p key={i} className={isStandalone ? 'standalone' : ''}>
+                                {para}
+                            </p>
+                        );
+                    })}
                 </article>
 
-                {/* Footer nav */}
-                <div style={{ marginTop: '5rem', paddingTop: '2rem', borderTop: '1px solid #1e1e1e' }}>
+                {/* Footer */}
+                <div style={{ marginTop: '5rem', paddingTop: '2rem', borderTop: '1px solid #1a1a1a' }}>
                     <Link href="/" className="back-link">
-                        <ArrowLeft size={16} /> {t.backLabel}
+                        <ArrowLeft size={15} /> {t.backLabel}
                     </Link>
                 </div>
 

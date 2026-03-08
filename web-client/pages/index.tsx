@@ -83,12 +83,20 @@ const experience = [
 
 const blogPosts = [
     {
-        titleEn: "Goodhart's Law Is the Problem of the Century",
-        titleIt: "La Legge di Goodhart è il problema del secolo",
+        titleEn: "All Measures Are Hackable",
+        titleIt: "Tutte le misure sono hackerabili",
         date: "March 8, 2026",
-        readTimeEn: "8 min read",
-        readTimeIt: "8 min di lettura",
+        readTimeEn: "7 min read",
+        readTimeIt: "7 min di lettura",
         link: "/blog/goodharts-law"
+    },
+    {
+        titleEn: "On Money Creation",
+        titleIt: "Sulla creazione del denaro",
+        date: "March 8, 2026",
+        readTimeEn: "9 min read",
+        readTimeIt: "9 min di lettura",
+        link: "/blog/money-creation"
     },
     {
         titleEn: "The Future of AI in Language Learning",
