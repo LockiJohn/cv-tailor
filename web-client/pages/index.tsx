@@ -269,10 +269,10 @@ export default function Portfolio() {
                         {t.intro}
                     </p>
                     <div style={{ display: 'flex', gap: '1rem' }}>
-                        <a href="mailto:contact@example.com" className="btn btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'var(--minimal-surface)', borderColor: 'var(--minimal-border)', color: 'var(--minimal-text)' }}>
+                        <a href="mailto:michele.minardi.1992@gmail.com" className="btn btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'var(--minimal-surface)', borderColor: 'var(--minimal-border)', color: 'var(--minimal-text)' }}>
                             <Mail size={16} /> {t.emailBtn}
                         </a>
-                        <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', borderColor: 'transparent', color: 'var(--minimal-muted)' }}>
+                        <a href="https://github.com/LockiJohn/openprometeo.github.io/blob/main/index.html" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', borderColor: 'transparent', color: 'var(--minimal-muted)' }}>
                             <Github size={18} />
                         </a>
                         <a href="https://linkedin.com/in/michele-minardi-/" target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', borderColor: 'transparent', color: 'var(--minimal-muted)' }}>
@@ -404,7 +404,7 @@ export default function Portfolio() {
                     <p style={{ color: 'var(--minimal-muted)', fontSize: '1.1rem', maxWidth: '500px', margin: '0 auto 2.5rem auto', lineHeight: 1.6 }}>
                         {t.contactText}
                     </p>
-                    <a href="mailto:contact@example.com" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: '#fff', color: '#000', padding: '1rem 2.5rem', borderRadius: '30px', fontWeight: 500, fontSize: '1.05rem' }}>
+                    <a href="mailto:michele.minardi.1992@gmail.com" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: '#fff', color: '#000', padding: '1rem 2.5rem', borderRadius: '30px', fontWeight: 500, fontSize: '1.05rem' }}>
                         <Mail size={18} /> {t.emailBtn}
                     </a>
                 </section>
