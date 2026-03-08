@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="it" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>OpenPrometeo — 2 minuti al giorno per più calma e lucidità</title>
+  <meta name="description" content="OpenPrometeo: arte + micro-pratiche per spezzare i loop mentali. Inizia gratis: un rituale quotidiano di 2 minuti per calma e lucidità." />
+  <meta name="color-scheme" content="dark light" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="OpenPrometeo — Risveglio Mentale" />
+  <meta property="og:description" content="2 minuti al giorno per più calma e lucidità. Arte + micro-pratiche guidate." />
+  <meta property="og:image" content="logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700;1,800&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg:#0b1020;
+      --bg2:#070b16;
+      --card:rgba(255,255,255,.06);
+      --card2:rgba(255,255,255,.08);
+      --stroke:rgba(255,255,255,.14);
+      --stroke2:rgba(255,255,255,.20);
+      --fg:#eef2ff;
+      --muted:#b6c2de;
+      --ink:#071018;
+      --a:#63e6be;
+      --b:#7ee7fd;
+      --g:#f3c969;
+      --r:#ffd6e7;
+      --shadow: 0 18px 55px rgba(0,0,0,.38);
+      --shadow2: 0 10px 30px rgba(0,0,0,.26);
+      --maxw: 1120px;
+      --rad: 18px;
+      --rad2: 26px;
+      --ease: cubic-bezier(.2,.9,.2,1);
+      --ease2: cubic-bezier(.34,1.56,.64,1);
+    }
+    [data-theme="light"]{
+      --bg:#f7f8fb;
+      --bg2:#ffffff;
+      --card:rgba(15,23,42,.05);
+      --card2:rgba(15,23,42,.07);
+      --stroke:rgba(15,23,42,.12);
+      --stroke2:rgba(15,23,42,.18);
+      --fg:#0f172a;
+      --muted:#475569;
+      --ink:#0b1020;
+      --shadow: 0 18px 55px rgba(2,6,23,.12);
+      --shadow2: 0 10px 30px rgba(2,6,23,.10);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; color:var(--fg);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 700px at 75% -10%, rgba(99,230,190,.20), transparent 60%),
+        radial-gradient(1000px 800px at 10% 20%, rgba(126,231,253,.18), transparent 55%),
+        radial-gradient(900px 600px at 80% 70%, rgba(243,201,105,.14), transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      line-height:1.55;
+    }
+    a{color:inherit}
+    .container{max-width:var(--maxw); margin:0 auto; padding:0 18px}
+    .grid{display:grid; gap:18px}
+    .row{display:flex; gap:14px; align-items:center; flex-wrap:wrap}
+
+    /* Top bar */
+    header{
+      position:sticky; top:0; z-index:30;
+      backdrop-filter: blur(16px) saturate(135%);
+      background: color-mix(in srgb, var(--bg2) 82%, transparent);
+      border-bottom: 1px solid var(--stroke);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+      gap:12px; flex-wrap:wrap;
+    }
+    .brand{display:flex; align-items:center; gap:12px; text-decoration:none}
+    .brand img{
+      width:34px; height:34px; border-radius:12px;
+      box-shadow: 0 10px 30px rgba(99,230,190,.20);
+      background: rgba(255,255,255,.06);
+      border:1px solid var(--stroke);
+    }
+    .brand b{
+      font-family: "Playfair Display", serif;
+      letter-spacing:.2px;
+      font-size:18px;
+    }
+    .brand span{color:var(--g); font-style:italic; font-weight:700}
+
+    nav .links{display:flex; gap:14px; align-items:center; flex-wrap:wrap}
+    nav .links a{
+      text-decoration:none; color:var(--muted);
+      font-weight:650; font-size:14px;
+      padding:10px 10px; border-radius:12px;
+      transition: background .25s var(--ease), color .25s var(--ease), transform .25s var(--ease);
+    }
+    nav .links a:hover{background:var(--card); color:var(--fg); transform:translateY(-1px)}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px; padding:12px 16px;
+      border-radius:14px;
+      border:1px solid var(--stroke);
+      background:transparent;
+      color:var(--fg);
+      font-weight:750; font-size:14px;
+      cursor:pointer;
+      transition: transform .25s var(--ease2), box-shadow .25s var(--ease), background .25s var(--ease), border-color .25s var(--ease);
+      text-decoration:none;
+      white-space:nowrap;
+    }
+    .btn:hover{transform:translateY(-2px); border-color:var(--stroke2); background:var(--card2)}
+    .btn.primary{
+      border:none;
+      color:var(--ink);
+      background: linear-gradient(135deg, var(--a), var(--b));
+      box-shadow: 0 18px 45px rgba(99,230,190,.22);
+    }
+    .btn.primary:hover{box-shadow: 0 26px 60px rgba(99,230,190,.28)}
+    .btn.patreon{
+      border:none; color:#fff;
+      background: linear-gradient(135deg, #ff424d, #ff7a7a);
+      box-shadow: 0 18px 45px rgba(255,66,77,.18);
+    }
+    .btn.patreon:hover{box-shadow: 0 26px 60px rgba(255,66,77,.24)}
+    .icon-btn{
+      width:44px; height:44px; padding:0;
+      border-radius:14px;
+      display:grid; place-items:center;
+    }
+
+    /* Hero */
+    .hero{padding: clamp(40px, 8vw, 84px) 0 34px}
+    .hero-wrap{display:grid; gap:22px; align-items:center}
+    @media(min-width: 980px){ .hero-wrap{grid-template-columns: 1.15fr .85fr} }
+
+    .badge{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 14px; border-radius:999px;
+      background: color-mix(in srgb, var(--a) 16%, transparent);
+      border: 1px solid color-mix(in srgb, var(--a) 34%, transparent);
+      color: color-mix(in srgb, var(--fg) 88%, var(--a));
+      font-weight:800; letter-spacing:.08em;
+      text-transform:uppercase;
+      font-size:12px;
+      width: fit-content;
+    }
+    h1{
+      margin:14px 0 10px;
+      font-family:"Playfair Display", serif;
+      font-size: clamp(40px, 6.2vw, 68px);
+      line-height:1.06;
+      letter-spacing:-.4px;
+    }
+    h1 em{
+      font-style:italic;
+      color: var(--g);
+      display:inline-block;
+      text-shadow: 0 10px 45px rgba(243,201,105,.10);
+    }
+    .lead{
+      color:var(--muted);
+      font-size: clamp(16px, 2.1vw, 19px);
+      max-width: 62ch;
+      margin: 12px 0 18px;
+    }
+    .hero-card{
+      border:1px solid var(--stroke);
+      background: linear-gradient(180deg, var(--card), color-mix(in srgb, var(--card) 45%, transparent));
+      border-radius: var(--rad2);
+      padding: 18px;
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      position:relative;
+    }
+    .hero-card:before{
+      content:"";
+      position:absolute; inset:-60px;
+      background:
+        radial-gradient(260px 220px at 20% 20%, rgba(126,231,253,.22), transparent 60%),
+        radial-gradient(240px 220px at 80% 40%, rgba(99,230,190,.20), transparent 60%),
+        radial-gradient(220px 220px at 70% 85%, rgba(243,201,105,.18), transparent 60%);
+      filter: blur(10px);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .hero-card > *{position:relative}
+    .mini{
+      display:grid; gap:12px;
+      grid-template-columns: 1fr;
+    }
+    .mini .item{
+      display:flex; gap:12px; align-items:flex-start;
+      padding:12px; border-radius:16px;
+      background: color-mix(in srgb, var(--bg2) 55%, transparent);
+      border:1px solid color-mix(in srgb, var(--stroke) 85%, transparent);
+    }
+    .dot{
+      width:12px; height:12px; border-radius:999px;
+      background: linear-gradient(135deg, var(--a), var(--b));
+      box-shadow: 0 12px 24px rgba(99,230,190,.22);
+      flex: 0 0 auto;
+      margin-top:4px;
+    }
+    .item b{display:block; font-size:14px; margin-bottom:2px}
+    .item p{margin:0; color:var(--muted); font-size:13px; line-height:1.45}
+
+    .trust{
+      display:flex; gap:12px; flex-wrap:wrap; margin-top:14px;
+      color:var(--muted); font-size:13px;
+    }
+    .pill{
+      padding:8px 10px; border-radius:999px;
+      border:1px solid var(--stroke);
+      background: color-mix(in srgb, var(--bg2) 70%, transparent);
+    }
+
+    /* Sections */
+    section{padding: clamp(54px, 8vw, 86px) 0}
+    .section-title{
+      font-family:"Playfair Display", serif;
+      font-size: clamp(30px, 4.4vw, 46px);
+      margin:0 0 10px;
+      line-height:1.12;
+      letter-spacing:-.2px;
+    }
+    .section-sub{
+      margin:0 0 22px;
+      color:var(--muted);
+      max-width: 70ch;
+      font-size: 16px;
+    }
+    .cards{
+      display:grid; gap:14px;
+      grid-template-columns: 1fr;
+    }
+    @media(min-width: 860px){ .cards{grid-template-columns: repeat(3, 1fr)} }
+    .card{
+      border:1px solid var(--stroke);
+      background: var(--card);
+      border-radius: var(--rad2);
+      padding: 18px;
+      box-shadow: var(--shadow2);
+      transition: transform .25s var(--ease2), border-color .25s var(--ease), background .25s var(--ease);
+    }
+    .card:hover{transform:translateY(-4px); border-color: var(--stroke2); background: var(--card2)}
+    .card h3{margin:0 0 8px; font-size:16px}
+    .card p{margin:0; color:var(--muted); font-size:14px}
+
+    /* Social proof */
+    .quotes{
+      display:grid; gap:14px;
+      grid-template-columns: 1fr;
+    }
+    @media(min-width: 980px){ .quotes{grid-template-columns: 1fr 1fr 1fr} }
+    .quote{
+      border:1px solid var(--stroke);
+      background: linear-gradient(180deg, var(--card), color-mix(in srgb, var(--card) 45%, transparent));
+      border-radius: var(--rad2);
+      padding: 18px;
+      box-shadow: var(--shadow2);
+    }
+    .quote p{margin:0 0 10px; color:color-mix(in srgb, var(--fg) 92%, #fff)}
+    .quote small{color:var(--muted); font-weight:650}
+
+    /* Pricing */
+    .pricing{
+      display:grid; gap:14px;
+      grid-template-columns: 1fr;
+      align-items:stretch;
+    }
+    @media(min-width: 980px){ .pricing{grid-template-columns: 1fr 1fr 1fr} }
+    .price{
+      border:1px solid var(--stroke);
+      background: var(--card);
+      border-radius: var(--rad2);
+      padding: 18px;
+      box-shadow: var(--shadow2);
+      position:relative;
+      overflow:hidden;
+    }
+    .price.featured{
+      border-color: color-mix(in srgb, var(--a) 40%, var(--stroke));
+      background: linear-gradient(180deg, color-mix(in srgb, var(--a) 14%, var(--card)), var(--card));
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+    .tag{
+      position:absolute; top:14px; right:14px;
+      padding:8px 10px; border-radius:999px;
+      font-size:12px; font-weight:900; letter-spacing:.06em;
+      text-transform:uppercase;
+      background: linear-gradient(135deg, var(--a), var(--b));
+      color:var(--ink);
+    }
+    .price h3{margin:0 0 6px; font-size:16px}
+    .price .desc{margin:0 0 12px; color:var(--muted); font-size:14px}
+    .amount{display:flex; align-items:flex-end; gap:8px; margin:12px 0}
+    .amount b{font-size:38px; line-height:1; letter-spacing:-1px}
+    .amount span{color:var(--muted); font-weight:650; padding-bottom:6px}
+    ul{margin:12px 0 0; padding:0 0 0 18px; color:var(--muted); font-size:14px}
+    li{margin:8px 0}
+
+    /* Newsletter */
+    .newsletter{
+      border:1px solid var(--stroke);
+      background: linear-gradient(180deg, var(--card), color-mix(in srgb, var(--card) 45%, transparent));
+      border-radius: var(--rad2);
+      padding: 18px;
+      box-shadow: var(--shadow2);
+      display:grid; gap:14px;
+      align-items:center;
+    }
+    @media(min-width: 980px){ .newsletter{grid-template-columns: 1.1fr .9fr} }
+    .form{
+      display:flex; gap:10px; flex-wrap:wrap;
+      padding:10px;
+      border:1px solid var(--stroke);
+      background: color-mix(in srgb, var(--bg2) 65%, transparent);
+      border-radius: 18px;
+    }
+    input{
+      flex: 1 1 220px;
+      min-width: 200px;
+      border:none; outline:none;
+      background: transparent;
+      color: var(--fg);
+      font-size: 14px;
+      padding: 10px 10px;
+    }
+    input::placeholder{color: color-mix(in srgb, var(--muted) 85%, transparent)}
+    .hint{color:var(--muted); font-size:12px; margin:0}
+    .ok{
+      display:none;
+      padding:12px 14px;
+      border-radius:16px;
+      border:1px solid color-mix(in srgb, var(--a) 35%, var(--stroke));
+      background: color-mix(in srgb, var(--a) 12%, transparent);
+      color: color-mix(in srgb, var(--fg) 80%, var(--a));
+      font-weight:750;
+    }
+    .error{
+      display:none;
+      padding:12px 14px;
+      border-radius:16px;
+      border:1px solid rgba(255,66,77,.35);
+      background: rgba(255,66,77,.10);
+      color: #ffd1d6;
+      font-weight:750;
+    }
+
+    /* FAQ */
+    details{
+      border:1px solid var(--stroke);
+      background: var(--card);
+      border-radius: var(--rad2);
+      padding: 14px 16px;
+      box-shadow: var(--shadow2);
+    }
+    summary{
+      cursor:pointer;
+      font-weight:800;
+      list-style:none;
+    }
+    summary::-webkit-details-marker{display:none}
+    details p{color:var(--muted); margin:10px 0 0; font-size:14px}
+
+    footer{
+      padding: 34px 0 46px;
+      border-top:1px solid var(--stroke);
+      color:var(--muted);
+      font-size:13px;
+    }
+    .footer-row{display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; align-items:center}
+    .foot-links{display:flex; gap:14px; flex-wrap:wrap}
+    .foot-links a{color:var(--muted); text-decoration:none}
+    .foot-links a:hover{color:var(--fg)}
+
+    /* Focus */
+    :focus-visible{outline: 3px solid color-mix(in srgb, var(--b) 45%, transparent); outline-offset: 2px; border-radius: 14px}
+
+    /* Subtle reveal */
+    .reveal{opacity:0; transform:translateY(10px); transition: opacity .6s var(--ease), transform .6s var(--ease)}
+    .reveal.on{opacity:1; transform:none}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="nav">
+        <a class="brand" href="#top" aria-label="OpenPrometeo Home">
+          <img src="logo.png" alt="Logo OpenPrometeo" />
+          <div><b>Open<span>Prometeo</span></b></div>
+        </a>
+
+        <nav class="links" aria-label="Navigazione">
+          <a href="#come">Come funziona</a>
+          <a href="#app">App</a>
+          <a href="#prezzi">Prezzi</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+
+        <div class="row">
+          <button class="btn icon-btn" id="themeBtn" aria-label="Cambia tema" title="Tema">
+            <span id="themeIcon">☾</span>
+          </button>
+          <a class="btn patreon" href="#supporta">Supporta</a>
+          <a class="btn primary" href="#inizia">Inizia gratis</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="container hero">
+      <div class="hero-wrap">
+        <div class="reveal">
+          <div class="badge">Rituale quotidiano · 2 minuti</div>
+          <h1>Più <em>calma</em>, più lucidità.<br/>Ogni giorno.</h1>
+          <p class="lead">
+            OpenPrometeo unisce arte simbolica e micro-pratiche guidate per aiutarti a spezzare i loop mentali
+            e tornare presente. Senza “guru vibes”. Solo chiarezza, bellezza, respiro.
+          </p>
+          <div class="row" style="margin-top:16px">
+            <a class="btn primary" href="#inizia">Inizia gratis</a>
+            <a class="btn" href="#app">Vedi l’app</a>
+            <a class="btn" href="https://www.instagram.com/openprometeo_/" target="_blank" rel="noopener">Instagram</a>
+          </div>
+          <div class="trust">
+            <div class="pill">✨ 10k+ persone su Instagram</div>
+            <div class="pill">🧠 1 contenuto al giorno</div>
+            <div class="pill">🔒 Niente spam</div>
+          </div>
+        </div>
+
+        <aside class="hero-card reveal" aria-label="Cosa ottieni">
+          <div class="mini">
+            <div class="item">
+              <div class="dot"></div>
+              <div>
+                <b>Daily drop</b>
+                <p>1 immagine + 1 insight + 1 pratica da 60–120s.</p>
+              </div>
+            </div>
+            <div class="item">
+              <div class="dot"></div>
+              <div>
+                <b>Collezioni</b>
+                <p>Ansia, fiducia, ego, presenza: salva e torna quando serve.</p>
+              </div>
+            </div>
+            <div class="item">
+              <div class="dot"></div>
+              <div>
+                <b>Percorsi guidati</b>
+                <p>7/21 giorni per consolidare calma e chiarezza (Premium).</p>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:14px">
+            <a class="btn primary" href="#prezzi" style="width:100%">Scopri i piani</a>
+            <p class="hint" style="margin-top:10px">Puoi iniziare gratis, senza carta.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <section id="come">
+      <div class="container">
+        <h2 class="section-title reveal">Come funziona</h2>
+        <p class="section-sub reveal">
+          Il punto non è “pensare di più”. È <b>tornare</b> a vedere. In pratica: un micro-rituale che ti riporta a te,
+          anche quando la giornata è piena.
+        </p>
+
+        <div class="cards">
+          <div class="card reveal">
+            <h3>1) Apri</h3>
+            <p>Un contenuto breve: bello, chiaro, immediato. Nessun overload.</p>
+          </div>
+          <div class="card reveal">
+            <h3>2) Respira</h3>
+            <p>Una pratica guidata (60–120s) per sciogliere tensione e rumore.</p>
+          </div>
+          <div class="card reveal">
+            <h3>3) Applica</h3>
+            <p>Un gesto mentale semplice che puoi usare nel resto della giornata.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-label="Prova sociale">
+      <div class="container">
+        <h2 class="section-title reveal">Cosa dicono</h2>
+        <p class="section-sub reveal">
+          Qui sotto trovi esempi (da sostituire con commenti reali / screenshot IG con permesso).
+        </p>
+        <div class="quotes">
+          <div class="quote reveal">
+            <p>“In due minuti mi cambia il tono della giornata. Non è motivazione: è lucidità.”</p>
+            <small>— follower</small>
+          </div>
+          <div class="quote reveal">
+            <p>“Le immagini mi arrivano dritto. E le pratiche sono piccole ma potentissime.”</p>
+            <small>— utente</small>
+          </div>
+          <div class="quote reveal">
+            <p>“Finalmente qualcosa di spirituale senza fuffa. Mi fa bene davvero.”</p>
+            <small>— follower</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="app">
+      <div class="container">
+        <h2 class="section-title reveal">App & Sito</h2>
+        <p class="section-sub reveal">
+          La versione “MVP” è pensata per monetizzare senza complicazioni: daily drop, collezioni, percorsi, premium semplice.
+          Se vuoi, qui mettiamo screenshot reali appena li hai.
+        </p>
+
+        <div class="cards">
+          <div class="card reveal">
+            <h3>Daily</h3>
+            <p>Notifica soft + contenuto del giorno. Impostabile (mai invasiva).</p>
+          </div>
+          <div class="card reveal">
+            <h3>Salva</h3>
+            <p>Preferiti e categorie. Ritorni quando serve: “ansia”, “fiducia”, “presenza”.</p>
+          </div>
+          <div class="card reveal">
+            <h3>Percorsi</h3>
+            <p>7/21 giorni. Stessa estetica, più profondità e continuità.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="prezzi">
+      <div class="container">
+        <h2 class="section-title reveal">Prezzi semplici</h2>
+        <p class="section-sub reveal">
+          Un funnel pulito: <b>Gratis</b> per iniziare → <b>Premium</b> per chi vuole i percorsi e l’archivio completo.
+        </p>
+
+        <div class="pricing">
+          <div class="price reveal">
+            <h3>Gratis</h3>
+            <p class="desc">Per iniziare subito.</p>
+            <div class="amount"><b>€0</b><span>/ sempre</span></div>
+            <ul>
+              <li>Daily drop (1 al giorno)</li>
+              <li>Salvataggi limitati</li>
+              <li>Newsletter (opzionale)</li>
+            </ul>
+            <div style="margin-top:14px">
+              <a class="btn primary" href="#inizia" style="width:100%">Inizia gratis</a>
+            </div>
+          </div>
+
+          <div class="price featured reveal">
+            <div class="tag">Consigliato</div>
+            <h3>Premium</h3>
+            <p class="desc">Il rituale completo.</p>
+            <div class="amount"><b>€4,99</b><span>/ mese</span></div>
+            <ul>
+              <li>Archivio completo + collezioni</li>
+              <li>Percorsi guidati 7/21 giorni</li>
+              <li>Audio brevi & bundle</li>
+              <li>Nuove uscite settimanali</li>
+            </ul>
+            <div style="margin-top:14px">
+              <a class="btn primary" href="#inizia" style="width:100%">Sblocca Premium</a>
+              <p class="hint" style="margin-top:10px">Opzione annuale (es. €39/anno) da aggiungere quando vuoi.</p>
+            </div>
+          </div>
+
+          <div class="price reveal" id="supporta">
+            <h3>Supporter</h3>
+            <p class="desc">Per chi vuole sostenere il progetto.</p>
+            <div class="amount"><b>Patreon</b><span>/ community</span></div>
+            <ul>
+              <li>Dietro le quinte</li>
+              <li>Contenuti extra</li>
+              <li>Aiuti a far crescere la missione</li>
+            </ul>
+            <div style="margin-top:14px">
+              <a class="btn patreon" href="https://www.patreon.com/" target="_blank" rel="noopener" style="width:100%">Vai su Patreon</a>
+              <p class="hint" style="margin-top:10px">Sostituisci con il tuo link Patreon reale.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="inizia">
+      <div class="container">
+        <div class="newsletter reveal">
+          <div>
+            <h2 class="section-title" style="margin-bottom:8px">Inizia gratis oggi</h2>
+            <p class="section-sub" style="margin:0">
+              Ti mando il “daily drop” via email (finché l’app è in lancio). 1 volta al giorno, massimo. Puoi disiscriverti quando vuoi.
+            </p>
+          </div>
+
+          <!--
+            TODO INTEGRAZIONE:
+            - Sostituisci action con la tua piattaforma (MailerLite/ConvertKit/Buttondown)
+            - Aggiungi double opt-in e privacy policy.
+          -->
+          <div>
+            <form class="form" id="nlForm" action="#" method="post" novalidate>
+              <input id="email" name="email" type="email" autocomplete="email" placeholder="La tua email…" required />
+              <button class="btn primary" type="submit">Iscrivimi</button>
+            </form>
+            <p class="hint">Niente spam. Solo arte + pratica breve. (Aggiungi qui link privacy).</p>
+            <div class="ok" id="okMsg">Fatto. Controlla la posta (e la cartella spam) 🌿</div>
+            <div class="error" id="errMsg">Ops—email non valida. Riprova.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="container">
+        <h2 class="section-title reveal">FAQ</h2>
+        <p class="section-sub reveal">Risposte rapide. (Queste sono “bozze” già UX-friendly.)</p>
+
+        <div class="grid" style="gap:12px">
+          <details class="reveal">
+            <summary>È meditazione?</summary>
+            <p>È più semplice: micro-pratiche da 60–120 secondi. Un reset mentale che puoi usare anche se “non riesci a meditare”.</p>
+          </details>
+
+          <details class="reveal">
+            <summary>Quanto tempo richiede?</summary>
+            <p>2 minuti al giorno. Se vuoi, puoi esplorare collezioni e percorsi quando hai più tempo.</p>
+          </details>
+
+          <details class="reveal">
+            <summary>Quando esce l’app?</summary>
+            <p>Qui mettiamo una data ufficiale appena definita. Nel frattempo, la lista email ti dà accesso al daily drop.</p>
+          </details>
+
+          <details class="reveal">
+            <summary>Come si paga Premium?</summary>
+            <p>Stripe/Apple/Google (da integrare). L’idea: mensile + annuale, cancellazione in 1 tap.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-row">
+        <div style="display:flex; gap:10px; align-items:center">
+          <img src="logo.png" alt="" style="width:26px; height:26px; border-radius:10px; border:1px solid var(--stroke)" />
+          <div>© <span id="year"></span> OpenPrometeo</div>
+        </div>
+        <div class="foot-links">
+          <a href="#top">Torna su</a>
+          <a href="https://www.instagram.com/openprometeo_/" target="_blank" rel="noopener">Instagram</a>
+          <a href="#inizia">Newsletter</a>
+          <a href="#supporta">Supporta</a>
+        </div>
+      </div>
+      <p class="hint" style="margin-top:12px">
+        Nota: inserisci qui Privacy Policy / Cookie / Termini. (Fondamentale per newsletter e pagamenti.)
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Theme (persist)
+    const root = document.documentElement;
+    const themeBtn = document.getElementById('themeBtn');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function setTheme(next){
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('op_theme', next);
+      themeIcon.textContent = next === 'light' ? '☼' : '☾';
+    }
+    const saved = localStorage.getItem('op_theme');
+    if(saved){ setTheme(saved); }
+    else{
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      setTheme(prefersLight ? 'light' : 'dark');
+    }
+    themeBtn.addEventListener('click', () => {
+      const curr = root.getAttribute('data-theme') || 'dark';
+      setTheme(curr === 'dark' ? 'light' : 'dark');
+    });
+
+    // Reveal on scroll
+    const obs = new IntersectionObserver((entries)=> {
+      for(const e of entries){
+        if(e.isIntersecting){ e.target.classList.add('on'); obs.unobserve(e.target); }
+      }
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // Newsletter (UX demo) — replace with real integration
+    const form = document.getElementById('nlForm');
+    const email = document.getElementById('email');
+    const ok = document.getElementById('okMsg');
+    const err = document.getElementById('errMsg');
+
+    form.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      ok.style.display = 'none';
+      err.style.display = 'none';
+
+      const v = (email.value || '').trim();
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+      if(!valid){
+        err.style.display = 'block';
+        email.focus();
+        return;
+      }
+
+      // TODO: send to your provider (MailerLite/ConvertKit/etc.)
+      ok.style.display = 'block';
+      form.reset();
+    });
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
